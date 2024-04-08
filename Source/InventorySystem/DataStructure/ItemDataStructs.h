@@ -15,7 +15,7 @@ enum class EItemRarity : uint8
 };
 
 
-// various types of items that can bve pickedup
+// various types of items that can be picked up
 UENUM()
 enum class EItemType : uint8
 {
@@ -28,7 +28,7 @@ enum class EItemType : uint8
 };
 
 
-// the informations of the items
+// the information of the items
 USTRUCT()
 struct FITemStats
 {
