@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "InventorySystem/InventorySystemCharacter.h"
 
 #include "InteractionInterface.generated.h"
 
@@ -81,8 +82,11 @@ public:
 	virtual void EndInteract();
 
 	// the actual interacting function
-	virtual void Interact();
+	virtual void Interact(AInventorySystemCharacter* PlayerCharacter);
 
 	// the interactions data
 	FInteractableData InteractableData;
 };
+
+
+

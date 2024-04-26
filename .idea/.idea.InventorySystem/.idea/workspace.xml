@@ -11,7 +11,16 @@
   <component name="ChangeListManager">
     <list default="true" id="7e3a5ab4-8bab-4ff4-93d7-c119ae19cada" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.InventorySystem/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.InventorySystem/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultGame.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultGame.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Input/IMC_Default.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Input/IMC_Default.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Maps/LVL_MainMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Maps/LVL_MainMap.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/InventorySystemCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/InventorySystemCharacter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/InventorySystemCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/InventorySystemCharacter.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/Actors/InterfaceTestActor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/Actors/InterfaceTestActor.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/Interfaces/InteractionInterface.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/Interfaces/InteractionInterface.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/Actors/InterfaceTestActor.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/Actors/InterfaceTestActor.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/Interfaces/InteractionInterface.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/Interfaces/InteractionInterface.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/Items/ItemBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/Items/ItemBase.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,6 +167,12 @@
       <workItem from="1713477172622" duration="3568000" />
       <workItem from="1713594442137" duration="284000" />
       <workItem from="1713594848380" duration="1221000" />
+      <workItem from="1713631740585" duration="458000" />
+      <workItem from="1713885143187" duration="2743000" />
+      <workItem from="1714019900936" duration="890000" />
+      <workItem from="1714087691071" duration="654000" />
+      <workItem from="1714115079126" duration="492000" />
+      <workItem from="1714159976829" duration="8119000" />
     </task>
     <servers />
   </component>

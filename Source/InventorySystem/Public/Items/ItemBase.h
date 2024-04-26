@@ -20,32 +20,31 @@ public:
 
 	// Owner of the inventory
 	// UPROPERTY()
-	// UInventoryComponent* OwningInventory;
+	// UInventoryComponent* OwningInventory;	
 	
-	// the items will be stored in a stack so I gave UMin and UMax
-	UPROPERTY(VisibleAnywhere, Category = "ItemData", meta = (UIMin=1, UIMax=50))
+	UPROPERTY(VisibleAnywhere, Category = "ItemData")
 	int32 ItemQuantity;
 
 	// ALl of the properties from the Data Struct
-	UPROPERTY(EditAnywhere, Category = "ItemData")
+	UPROPERTY(VisibleAnywhere, Category = "Item")
 	FName ID;
 
-	UPROPERTY(EditAnywhere, Category = "ItemData")
+	UPROPERTY(VisibleAnywhere, Category = "Item")
 	EItemType ItemType;
 
-	UPROPERTY(EditAnywhere, Category = "ItemData")
+	UPROPERTY(VisibleAnywhere, Category = "Item")
 	EItemRarity ItemRarity;
 
-	UPROPERTY(EditAnywhere, Category = "ItemData")
+	UPROPERTY(VisibleAnywhere, Category = "Item")
 	FITemStats ItemStatistics;
 
-	UPROPERTY(EditAnywhere, Category = "ItemData")
+	UPROPERTY(VisibleAnywhere, Category = "Item")
 	FItemTextData TextData;
 
-	UPROPERTY(EditAnywhere, Category = "ItemData")
+	UPROPERTY(VisibleAnywhere, Category = "Item")
 	FItemNumericData NumericData;
 
-	UPROPERTY(EditAnywhere, Category = "ItemData")
+	UPROPERTY(VisibleAnywhere, Category = "Item")
 	FItemAssetData AssetData;
 
 	// Constructor
@@ -80,6 +79,6 @@ protected:
 	// overloading the == operator to compare the keys inside TArray for array of the items
 	bool operator==(const FName& OtherID) const
 	{
-		return ID == OtherID;
+		return this->ID == OtherID;
 	}
 };
