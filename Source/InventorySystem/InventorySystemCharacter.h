@@ -9,6 +9,7 @@
 #include "InventorySystemCharacter.generated.h"
 
 
+class AInventorySystemHUD;
 class USpringArmComponent;
 class UCameraComponent;
 class UInputMappingContext;
@@ -62,6 +63,9 @@ protected:
 	//=============================================================================
 	// PROPERTIES
 	//=============================================================================
+
+	UPROPERTY()
+	AInventorySystemHUD* HUDRef;
 
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))

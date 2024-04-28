@@ -3,10 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "InventorySystem/InventorySystemCharacter.h"
-
 #include "InteractionInterface.generated.h"
 
+class AInventorySystemCharacter;
 // the interactable options enum
 // forcing each one of them to be just 1 byte
 UENUM()

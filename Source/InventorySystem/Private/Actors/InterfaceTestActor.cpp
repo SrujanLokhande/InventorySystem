@@ -15,7 +15,9 @@ AInterfaceTestActor::AInterfaceTestActor()
 void AInterfaceTestActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	// to make the interactable data interface class communicate with this class
+	InteractableData = InstanceInteractableData;	
 }
 
 // Called every frame
@@ -54,7 +56,7 @@ void AInterfaceTestActor::EndInteract()
 	UE_LOG(LogTemp, Warning, TEXT("Calling End Interact on Test Actor"));
 }
 
-void AInterfaceTestActor::Interact()
+void AInterfaceTestActor::Interact(AInventorySystemCharacter* PlayerCharacter)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Calling Interact on Test Actor"));
 }
