@@ -8,6 +8,7 @@
 #include "ItemBase.generated.h"
 
 class AInventorySystemCharacter;
+class UInventoryComponent;
 /**
  * 
  */
@@ -19,8 +20,8 @@ class INVENTORYSYSTEM_API UItemBase : public UObject
 public:
 
 	// Owner of the inventory
-	// UPROPERTY()
-	// UInventoryComponent* OwningInventory;	
+	UPROPERTY()
+	UInventoryComponent* OwningInventory;	
 	
 	UPROPERTY(VisibleAnywhere, Category = "ItemData")
 	int32 ItemQuantity;

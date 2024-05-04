@@ -3,6 +3,8 @@
 
 #include "InventorySystem/Public/Items/ItemBase.h"
 
+#include "Components/InventoryComponent.h"
+
 UItemBase::UItemBase()
 {
 }
@@ -29,13 +31,13 @@ void UItemBase::SetItemQuantity(const int32 NewQuantity)
 	{
 		ItemQuantity = FMath::Clamp(NewQuantity, 0, NumericData.bIsStackable ? NumericData.maxStackSize : 1);
 
-		// if(OwningInventory)
-		// {
-		// 	if(Quantitiy <= 0)
-		// 	{
-		// 		OwningInventory->RemoveItem(this);
-		// 	}
-		// }
+		if(OwningInventory)
+		{
+			if(ItemQuantity <= 0)
+			{
+				OwningInventory->RemoveSingleInstanceOfItem(this);
+			}
+		}
 	}
 }
 
