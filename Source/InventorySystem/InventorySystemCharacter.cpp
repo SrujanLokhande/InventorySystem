@@ -11,6 +11,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "DrawDebugHelpers.h"
+#include "Components/InventoryComponent.h"
 #include "UserInterface/InventorySystemHUD.h"
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -48,6 +49,10 @@ AInventorySystemCharacter::AInventorySystemCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
+	PlayerInventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("Player Inventory"));
+	PlayerInventory->SetSlotsCapacity(40);
+	PlayerInventory->SetWeightCapacity(60);
+
 	InteractionCheckFrequency = 0.1;
 	InteractionCheckDistance = 225.f;
 
@@ -70,6 +75,8 @@ void AInventorySystemCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 		// Interacting
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &ThisClass::BeginInteract);
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &ThisClass::EndInteract);
+		// Open Menu and inventory
+		EnhancedInputComponent->BindAction(ToggleMenuAction, ETriggerEvent::Triggered, this, &ThisClass::ToggleMenu);
 	}
 	else
 	{
@@ -281,4 +288,18 @@ void AInventorySystemCharacter::Interact()
 		TargetInteractable->Interact(this);
 	}
 }
+
+void AInventorySystemCharacter::UpdateInteractionWidget() const
+{
+	if(IsValid(TargetInteractable.GetObject()))
+	{
+		HUDRef->UpdateInteractionWidget(&TargetInteractable->InteractableData);
+	}
+}
+
+void AInventorySystemCharacter::ToggleMenu() 
+{
+	HUDRef->ToggleMenu();
+}
+
 

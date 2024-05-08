@@ -9,6 +9,7 @@
 #include "InventorySystemCharacter.generated.h"
 
 
+class UInventoryComponent;
 class AInventorySystemHUD;
 class USpringArmComponent;
 class UCameraComponent;
@@ -45,18 +46,22 @@ public:
 	// PROPERTIES
 	//=============================================================================
 	
-	/** Returns CameraBoom subobject **/
-	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-	/** Returns FollowCamera subobject **/
-	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 	//=============================================================================
 	// FUNCTIONS
 	//=============================================================================
 	
+	/** Returns CameraBoom subobject **/
+	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+	/** Returns FollowCamera subobject **/
+	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	
 	AInventorySystemCharacter();
-
 	FORCEINLINE bool IsInteracting() const { return GetWorldTimerManager().IsTimerActive(TimerHandleInteraction); }
+
+	FORCEINLINE UInventoryComponent* GetInventory() const { return PlayerInventory; }
+
+	void UpdateInteractionWidget() const;
 
 protected:
 
@@ -95,10 +100,17 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* InteractAction;
 
+	/** Toggle Menu Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* ToggleMenuAction;
+
 	// This TScriptInterface is a Unreal Interface that lets us implement all functionalitites for the UObject that implements an interface
 	// TargetInteractable is the UObject that we are currently interacting with
 	UPROPERTY(VisibleAnywhere, Category = "Character | Interaction")
 	TScriptInterface<IInteractionInterface> TargetInteractable;
+
+	UPROPERTY(VisibleAnywhere, Category = "Character | Inventory")
+	UInventoryComponent* PlayerInventory;
 
 	float InteractionCheckFrequency;
 
@@ -106,7 +118,7 @@ protected:
 
 	FTimerHandle TimerHandleInteraction;
 
-	FInteractionData InteractionData;
+	FInteractionData InteractionData;	
 
 	//=============================================================================
 	// FUNCTIONS
@@ -123,6 +135,7 @@ protected:
 	void BeginInteract();
 	void EndInteract();
 	void Interact();
+	void ToggleMenu();
 
 	virtual void Tick(float DeltaSeconds) override;
 

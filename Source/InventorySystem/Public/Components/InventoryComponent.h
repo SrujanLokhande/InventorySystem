@@ -100,7 +100,7 @@ public:
 	UItemBase* FindNextPartialStack(UItemBase* ItemIn) const;
 
 	UFUNCTION(Category = "Inventory")
-	FItemAddResult HandleAddItem(UItemBase* InputItem) const;
+	FItemAddResult HandleAddItem(UItemBase* InputItem);
 
 	// to completely remove the item from inventory
 	UFUNCTION(Category = "Inventory")

@@ -1,5 +1,7 @@
 #include "Actors/Pickup.h"
 
+#include "Components/InventoryComponent.h"
+#include "InventorySystem/InventorySystemCharacter.h"
 #include "Items/ItemBase.h"
 
 APickup::APickup()
@@ -89,7 +91,7 @@ void APickup::Interact(AInventorySystemCharacter* PlayerCharacter)
 	}
 }
 
-void APickup::TakePickup(AInventorySystemCharacter* PickupTaker)
+void APickup::TakePickup(const AInventorySystemCharacter* PickupTaker)
 {
 	// checks if this actor is on the way for destruction because after the player picks it up
 	// we will destroy the actor from the world, so if the player spams the equip Key
@@ -98,12 +100,32 @@ void APickup::TakePickup(AInventorySystemCharacter* PickupTaker)
 	{
 		if(ItemReference)
 		{
-			// if(UInventoryComponent* PlayerInventory = PickupTaker->GetInventory)
-			// {
-					// try to add item to player inventory and based on the result
-					// try to add or destroy the pickup
-			// 	
-			// }
+			if(UInventoryComponent* PlayerInventory = PickupTaker->GetInventory())
+			{
+				const FItemAddResult AddResult = PlayerInventory->HandleAddItem(ItemReference);
+
+				switch (AddResult.OperationResult) {
+					case EItemAddResult::IAR_NoItemAdded:
+						break;
+				case EItemAddResult::IAR_PartialAmountItemAdded:
+					UpdateInteractableData();
+					PickupTaker->UpdateInteractionWidget();
+					break;
+				case EItemAddResult::IAR_AllItemAdded:
+					Destroy();
+					break;
+				default: ;
+				}
+				UE_LOG(LogTemp, Warning, TEXT("%s"), *AddResult.ResultMessage.ToString());
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Inventory Component Null"));
+			}
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Pickup Item Reference is Null"));
 		}
 	}
 }

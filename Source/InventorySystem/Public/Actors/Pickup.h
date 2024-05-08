@@ -59,7 +59,7 @@ protected:
 
 	virtual void Interact(AInventorySystemCharacter* PlayerCharacter) override;
 	void UpdateInteractableData();
-	void TakePickup(AInventorySystemCharacter* PickupTaker);
+	void TakePickup(const AInventorySystemCharacter* PickupTaker);
 
 #if WITH_EDITOR
 	// to change the mesh of the placed objects and not be needing to explicitly go and change the mesh and the item_id for
