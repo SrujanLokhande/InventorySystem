@@ -26,13 +26,13 @@ public:
 	void RefreshInventory();
 
 	UPROPERTY(meta=(BindWidget))
-	UWrapBox* InventoryPanel;
+	UWrapBox* InventoryWrapBox;
 	
 	UPROPERTY(meta=(BindWidget))
-	UTextBlock* WeightInfo;
+	UTextBlock* TXT_WeightInfo;
 
 	UPROPERTY(meta=(BindWidget))
-	UTextBlock* CapacityInfo;
+	UTextBlock* TXT_CapacityInfo;
 
 	UPROPERTY()
 	AInventorySystemCharacter* PlayerCharacterRef;

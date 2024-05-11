@@ -9,6 +9,7 @@
 #include "InventorySystemCharacter.generated.h"
 
 
+class UItemBase;
 class UInventoryComponent;
 class AInventorySystemHUD;
 class USpringArmComponent;
@@ -62,6 +63,8 @@ public:
 	FORCEINLINE UInventoryComponent* GetInventory() const { return PlayerInventory; }
 
 	void UpdateInteractionWidget() const;
+
+	void DropItem(UItemBase* ItemToDrop, const int32 QuantityToDrop);
 
 protected:
 

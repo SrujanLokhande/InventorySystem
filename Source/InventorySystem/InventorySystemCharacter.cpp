@@ -11,6 +11,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "DrawDebugHelpers.h"
+#include "Actors/Pickup.h"
 #include "Components/InventoryComponent.h"
 #include "UserInterface/InventorySystemHUD.h"
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -300,6 +301,29 @@ void AInventorySystemCharacter::UpdateInteractionWidget() const
 void AInventorySystemCharacter::ToggleMenu() 
 {
 	HUDRef->ToggleMenu();
+}
+
+void AInventorySystemCharacter::DropItem(UItemBase* ItemToDrop, const int32 QuantityToDrop)
+{
+	if(PlayerInventory->FindMatchingItem(ItemToDrop))
+	{
+		// Spawning parameters for the actor
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		SpawnParams.bNoFail = true;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+
+		// Actor spawn location and rotation
+		const FVector SpawnLocation{GetActorLocation()  + (GetActorForwardVector() * 50.0f)};
+		const FTransform SpawnTransform{GetActorRotation(), SpawnLocation};
+
+		const int32 RemovedQuantity = PlayerInventory->RemoveAmountOfItem(ItemToDrop, QuantityToDrop);
+
+		APickup* Pickup = GetWorld()->SpawnActor<APickup>(APickup::StaticClass(), SpawnTransform, SpawnParams);
+
+		// Updating the DataTable by calling the Drop Function from the Item itself 
+		Pickup->InitializeDrop(ItemToDrop, RemovedQuantity);
+	}
 }
 
 

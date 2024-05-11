@@ -38,7 +38,7 @@ void UInventoryWidget::RefreshInventory()
 	if(InventoryComponentRef && InventorySlotClass)
 	{
 		// to get the most updated inventory we clear the previous inventory
-		InventoryPanel->ClearChildren();
+		InventoryWrapBox->ClearChildren();
 
 		// iterating through all of the Inventory items in the array and creates a slot of each item in the inventory Panel
 		for (UItemBase* const& InventoryItem : InventoryComponentRef->GetInventoryContents())
@@ -47,21 +47,27 @@ void UInventoryWidget::RefreshInventory()
 			ItemSlot->SetItemReference(InventoryItem);
 
 			// this creates and adds the ItemSlot in the Inventory Panel
-			InventoryPanel->AddChildToWrapBox(ItemSlot);
+			InventoryWrapBox->AddChildToWrapBox(ItemSlot);
 		}
+
+		SetInfoText();
 	}
 }
 
 void UInventoryWidget::SetInfoText() const
 {
-	WeightInfo->SetText(FText::Format(FText::FromString("{0}/{1}"),
-		InventoryComponentRef->GetInventoryTotalWeight(),
-		InventoryComponentRef->GetWeightCapacity()));
+	// doing this to have the float value for the slots
+	const FString WeightInfoValue {
+	FString::SanitizeFloat(InventoryComponentRef->GetInventoryTotalWeight()) + "/" +
+	FString::SanitizeFloat(InventoryComponentRef->GetWeightCapacity())};
 
-	CapacityInfo->SetText(FText::Format(FText::FromString("{0}/{1}"),
-		// number of items in the inventory array
-	InventoryComponentRef->GetInventoryContents().Num(),
-	InventoryComponentRef->GetSlotsCapacity()));
+	const FString CapacityInfoValue {
+		FString::FromInt(InventoryComponentRef->GetInventoryContents().Num()) + "/" +
+		FString::FromInt(InventoryComponentRef->GetSlotsCapacity())};
+
+	TXT_WeightInfo->SetText(FText::FromString(WeightInfoValue));
+	TXT_CapacityInfo->SetText(FText::FromString(CapacityInfoValue));
+
 }
 
 

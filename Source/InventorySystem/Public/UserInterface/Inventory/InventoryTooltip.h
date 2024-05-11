@@ -38,7 +38,7 @@ public:
 	UTextBlock* TXT_ItemDescription;
 
 	UPROPERTY(meta=(BindWidget))
-	UTextBlock* TXT_StackSizeText;
+	UTextBlock* TXT_MaxStackSize;
 
 	UPROPERTY(meta=(BindWidget))
 	UTextBlock* TXT_StackWeight;

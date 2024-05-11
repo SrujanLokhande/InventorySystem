@@ -13,6 +13,19 @@ void UInventoryTooltip::NativeConstruct()
 
 	const UItemBase* ItemBeingHovered = InventorySlotBeingHovered->GetItemReference();
 
+	// switch (ItemBeingHovered->ItemRarity) {
+	// 	case EItemRarity::Common:
+	// 		TXT_It
+	// 		break;
+	// case EItemRarity::Rare:
+	// 	break;
+	// case EItemRarity::Epic:
+	// 	break;
+	// case EItemRarity::Legendary:
+	// 	break;
+	// default: ;
+	// }
+
 	switch (ItemBeingHovered->ItemType)
 	{
 	case EItemType::Potions:
@@ -40,12 +53,20 @@ void UInventoryTooltip::NativeConstruct()
 	TXT_ItemDescription->SetText(ItemBeingHovered->TextData.Description);
 	TXT_StackWeight->SetText(FText::AsNumber(ItemBeingHovered->GetItemStackWeight()));
 
+	const FString WeightInfo =
+		{"Weight : " + FString::SanitizeFloat(ItemBeingHovered->GetItemStackWeight())};
+
+	TXT_StackWeight->SetText(FText::FromString(WeightInfo));
+
 	if(ItemBeingHovered->NumericData.bIsStackable)
 	{
-		TXT_StackSizeText->SetText(FText::AsNumber(ItemBeingHovered->NumericData.maxStackSize));
+		const FString StackInfo =
+			{"Max Stack Size : " + FString::FromInt(ItemBeingHovered->NumericData.maxStackSize)};
+		
+		TXT_MaxStackSize->SetText(FText::FromString(StackInfo));
 	}
 	else
 	{
-		TXT_StackSizeText->SetVisibility(ESlateVisibility::Collapsed);
+		TXT_MaxStackSize->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }

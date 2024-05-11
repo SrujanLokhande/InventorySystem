@@ -9,8 +9,17 @@
 /**
  * 
  */
+class UItemBase;
+class UInventoryComponent;
 UCLASS()
 class INVENTORYSYSTEM_API UItemDragDropOperation : public UDragDropOperation
 {
 	GENERATED_BODY()
+
+public:
+	UPROPERTY()
+	UItemBase* SourceItem;
+
+	UPROPERTY()
+	UInventoryComponent* SourceInventory;
 };

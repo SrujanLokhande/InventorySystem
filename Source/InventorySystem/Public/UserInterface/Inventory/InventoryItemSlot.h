@@ -26,8 +26,8 @@ public:
 	FORCEINLINE void SetItemReference(UItemBase* ItemIn) { ItemReference = ItemIn; }
 	FORCEINLINE UItemBase* GetItemReference() const { return ItemReference; }
 
-protected:	
-
+protected:
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory Slot")
 	TSubclassOf<UDragItemVisual> DragItemVisualClass;
 
@@ -38,14 +38,14 @@ protected:
 	UItemBase* ItemReference;
 
 	// for the square shaped Item Image inside the inventory panel
-	UPROPERTY(VisibleAnywhere, Category = "Inventory Slot")
+	UPROPERTY(VisibleAnywhere, Category = "Inventory Slot", meta=(BindWidget))
 	UBorder* ItemBorder;
 	
-	UPROPERTY(VisibleAnywhere, Category = "Inventory Slot")
-	UImage* ItemIcon;
+	UPROPERTY(VisibleAnywhere, Category = "Inventory Slot", meta=(BindWidget))
+	UImage* IMG_ItemIcon;
 
-	UPROPERTY(VisibleAnywhere, Category = "Inventory Slot")
-	UTextBlock* ItemQuantity;
+	UPROPERTY(VisibleAnywhere, Category = "Inventory Slot", meta=(BindWidget))
+	UTextBlock* TXT_ItemQuantity;
 
 	virtual void NativeOnInitialized() override;
 	virtual void NativeConstruct() override;
