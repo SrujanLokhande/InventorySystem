@@ -94,6 +94,12 @@ void UInventoryItemSlot::NativeOnDragDetected(const FGeometry& InGeometry, const
 		DragVisual->ItemBorder->SetBrushColor(ItemBorder->GetBrushColor());
 		DragVisual->TXT_ItemQuantity->SetText(FText::AsNumber(ItemReference->ItemQuantity));
 
+		// checking if the item is not stackable then dont show the item quantity
+		ItemReference->NumericData.bIsStackable
+		? DragVisual->TXT_ItemQuantity->SetText(FText::AsNumber(ItemReference->ItemQuantity))
+		: DragVisual->TXT_ItemQuantity->SetVisibility(ESlateVisibility::Collapsed);
+			
+
 		UItemDragDropOperation* DragItemOperation = NewObject<UItemDragDropOperation>();
 		DragItemOperation->SourceItem = ItemReference;
 		DragItemOperation->SourceInventory = ItemReference->OwningInventory;

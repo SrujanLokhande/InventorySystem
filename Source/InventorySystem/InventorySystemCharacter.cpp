@@ -163,7 +163,7 @@ void AInventorySystemCharacter::PerformInteractionCheck()
 	if(LookDirection > 0)
 	{
 		// Debug Linetrace Line
-		DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 2.0f);
+		//DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 2.0f);
 
 		// for line trace collisions
 		FCollisionQueryParams QueryParams;

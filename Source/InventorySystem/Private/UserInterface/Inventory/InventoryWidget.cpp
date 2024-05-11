@@ -7,6 +7,7 @@
 #include "InventorySystem/InventorySystemCharacter.h"
 #include "Items/ItemBase.h"
 #include "UserInterface/Inventory/InventoryItemSlot.h"
+#include "UserInterface/Inventory/ItemDragDropOperation.h"
 
 
 void UInventoryWidget::NativeOnInitialized()
@@ -29,7 +30,15 @@ void UInventoryWidget::NativeOnInitialized()
 bool UInventoryWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
 	UDragDropOperation* InOperation)
 {
-	return Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
+	const UItemDragDropOperation* ItemDragDrop = Cast<UItemDragDropOperation>(InOperation);
+
+	// detecting if the drop operation is happening on the same panel i.e on the inventory panel
+	if(ItemDragDrop->SourceInventory && InventoryComponentRef)
+	{
+		// if it is, htne we return true which will prevent to drop the item on the panel
+		return true;
+	}
+	return false;
 }
 
 
