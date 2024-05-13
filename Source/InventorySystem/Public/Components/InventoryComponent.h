@@ -142,10 +142,10 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
 	float InventoryTotalWeight;
 
-	UPROPERTY(EditInstanceOnly, Category = "Inventory")
+	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
 	int32 InventorySlotsCapacity;
 
-	UPROPERTY(EditInstanceOnly, Category = "Inventory")
+	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
 	float InventoryWeightCapacity;
 
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")

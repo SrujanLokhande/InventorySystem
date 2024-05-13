@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "InventoryWidget.generated.h"
 
+class UGridPanel;
 class UInventoryItemSlot;
 class UInventoryComponent;
 class AInventorySystemCharacter;
@@ -25,8 +26,11 @@ public:
 	UFUNCTION()
 	void RefreshInventory();
 
+	// UPROPERTY(meta=(BindWidget))
+	// UWrapBox* InventoryWrapBox;
+
 	UPROPERTY(meta=(BindWidget))
-	UWrapBox* InventoryWrapBox;
+	UGridPanel* InventoryGridPanel;
 	
 	UPROPERTY(meta=(BindWidget))
 	UTextBlock* TXT_WeightInfo;
