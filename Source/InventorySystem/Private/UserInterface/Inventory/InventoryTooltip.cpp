@@ -26,47 +26,50 @@ void UInventoryTooltip::NativeConstruct()
 	// default: ;
 	// }
 
-	switch (ItemBeingHovered->ItemType)
+	if(ItemBeingHovered)
 	{
-	case EItemType::Potions:
-		TXT_Itemtype->SetText(FText::FromString("Potions"));
-		TXT_DamageValue->SetVisibility(ESlateVisibility::Collapsed);		
+		switch (ItemBeingHovered->ItemType)
+		{
+		case EItemType::Potions:
+			TXT_Itemtype->SetText(FText::FromString("Potions"));
+			TXT_DamageValue->SetVisibility(ESlateVisibility::Collapsed);		
 			break;
-	case EItemType::Herbs:
-		break;
-	case EItemType::Weapons:
-		break;
-	case EItemType::QuestItems:
-		break;
-	case EItemType::Mundane:
-		TXT_Itemtype->SetText(FText::FromString("Mundane Item"));
-		TXT_DamageValue->SetVisibility(ESlateVisibility::Collapsed);		
-		TXT_UsageText->SetVisibility(ESlateVisibility::Collapsed);
-		break;
+		case EItemType::Herbs:
+			break;
+		case EItemType::Weapons:
+			break;
+		case EItemType::QuestItems:
+			break;
+		case EItemType::Mundane:
+			TXT_Itemtype->SetText(FText::FromString("Mundane Item"));
+			TXT_DamageValue->SetVisibility(ESlateVisibility::Collapsed);		
+			TXT_UsageText->SetVisibility(ESlateVisibility::Collapsed);
+			break;
 		
-	default: ;		
-	}
+		default: ;		
+		}
 
-	TXT_ItemName->SetText(ItemBeingHovered->TextData.Name);
-	TXT_DamageValue->SetText(FText::AsNumber(ItemBeingHovered->ItemStatistics.DamageValue));
-	TXT_UsageText->SetText(ItemBeingHovered->TextData.UsageText);
-	TXT_ItemDescription->SetText(ItemBeingHovered->TextData.Description);
-	TXT_StackWeight->SetText(FText::AsNumber(ItemBeingHovered->GetItemStackWeight()));
+		TXT_ItemName->SetText(ItemBeingHovered->TextData.Name);
+		TXT_DamageValue->SetText(FText::AsNumber(ItemBeingHovered->ItemStatistics.DamageValue));
+		TXT_UsageText->SetText(ItemBeingHovered->TextData.UsageText);
+		TXT_ItemDescription->SetText(ItemBeingHovered->TextData.Description);
+		TXT_StackWeight->SetText(FText::AsNumber(ItemBeingHovered->GetItemStackWeight()));
 
-	const FString WeightInfo =
-		{"Weight : " + FString::SanitizeFloat(ItemBeingHovered->GetItemStackWeight())};
+		const FString WeightInfo =
+			{"Weight : " + FString::SanitizeFloat(ItemBeingHovered->GetItemStackWeight())};
 
-	TXT_StackWeight->SetText(FText::FromString(WeightInfo));
+		TXT_StackWeight->SetText(FText::FromString(WeightInfo));
 
-	if(ItemBeingHovered->NumericData.bIsStackable)
-	{
-		const FString StackInfo =
-			{"Max Stack Size : " + FString::FromInt(ItemBeingHovered->NumericData.maxStackSize)};
+		if(ItemBeingHovered->NumericData.bIsStackable)
+		{
+			const FString StackInfo =
+				{"Max Stack Size : " + FString::FromInt(ItemBeingHovered->NumericData.maxStackSize)};
 		
-		TXT_MaxStackSize->SetText(FText::FromString(StackInfo));
-	}
-	else
-	{
-		TXT_MaxStackSize->SetVisibility(ESlateVisibility::Collapsed);
+			TXT_MaxStackSize->SetText(FText::FromString(StackInfo));
+		}
+		else
+		{
+			TXT_MaxStackSize->SetVisibility(ESlateVisibility::Collapsed);
+		}
 	}
 }

@@ -11,10 +11,13 @@
   <component name="ChangeListManager">
     <list default="true" id="7e3a5ab4-8bab-4ff4-93d7-c119ae19cada" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.InventorySystem/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.InventorySystem/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_InventoryWidget.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_InventoryWidget.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/DataStructures/DT_Test.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/DataStructures/DT_Test.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Maps/LVL_MainMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Maps/LVL_MainMap.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/DataStructure/ItemDataStructs.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/DataStructure/ItemDataStructs.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryItemSlot.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryItemSlot.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryTooltip.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryTooltip.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryWidget.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/Components/InventoryComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/Components/InventoryComponent.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/InventoryItemSlot.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/InventoryItemSlot.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/InventoryWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/InventoryWidget.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,7 +46,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;C++ Project.InventorySystem.executor&quot;: &quot;Run&quot;,
+    &quot;C++ Project.InventorySystem.executor&quot;: &quot;Debug&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
@@ -229,6 +232,30 @@
       <workItem from="1715452514024" duration="962000" />
       <workItem from="1715455737084" duration="1987000" />
       <workItem from="1715572549139" duration="3328000" />
+      <workItem from="1715612552306" duration="1479000" />
+      <workItem from="1715640368802" duration="5172000" />
+      <workItem from="1715670223353" duration="717000" />
+      <workItem from="1715698583368" duration="9747000" />
+      <workItem from="1715922965420" duration="569000" />
+      <workItem from="1715949434588" duration="578000" />
+      <workItem from="1716495451758" duration="5093000" />
+      <workItem from="1716936937859" duration="1177000" />
+      <workItem from="1717041918473" duration="1763000" />
+      <workItem from="1717081843819" duration="1100000" />
+      <workItem from="1717087871646" duration="688000" />
+      <workItem from="1717115162548" duration="691000" />
+      <workItem from="1717134481815" duration="720000" />
+      <workItem from="1717135511284" duration="958000" />
+      <workItem from="1717719551847" duration="1043000" />
+      <workItem from="1717720650420" duration="75000" />
+      <workItem from="1717720782696" duration="1441000" />
+      <workItem from="1717780283904" duration="2343000" />
+      <workItem from="1717800611300" duration="1287000" />
+      <workItem from="1717857138229" duration="1260000" />
+      <workItem from="1717878642471" duration="5952000" />
+      <workItem from="1718041880927" duration="1042000" />
+      <workItem from="1718053852694" duration="832000" />
+      <workItem from="1718055024808" duration="1963000" />
     </task>
     <task id="LOCAL-00001" summary="Handled the stackable items stacking up and made the inventory to be fully functional">
       <option name="closed" value="true" />

@@ -1,6 +1,8 @@
 // Copyright Srujan Lokhande @2024
 #include "UserInterface/Inventory/InventoryWidget.h"
+
 #include "Components/GridPanel.h"
+#include "Components/GridSlot.h"
 #include "Components/InventoryComponent.h"
 #include "Components/TextBlock.h"
 #include "Components/WrapBox.h"
@@ -8,7 +10,6 @@
 #include "Items/ItemBase.h"
 #include "UserInterface/Inventory/InventoryItemSlot.h"
 #include "UserInterface/Inventory/ItemDragDropOperation.h"
-
 
 void UInventoryWidget::NativeOnInitialized()
 {
@@ -22,7 +23,7 @@ void UInventoryWidget::NativeOnInitialized()
 		{
 			// this is the method to call non-dynamic delegate
 			InventoryComponentRef->OnInventoryUpdated.AddUObject(this, &ThisClass::RefreshInventory);
-			SetInfoText();
+			SetInfoText();			
 		}
 	}
 }
@@ -32,17 +33,16 @@ bool UInventoryWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDrop
 {
 	const UItemDragDropOperation* ItemDragDrop = Cast<UItemDragDropOperation>(InOperation);
 
-	// detecting if the drop operation is happening on the same panel i.e on the inventory panel
+	// detecting if the drop operation is happening on the same panel i.e. on the inventory panel
 	if(ItemDragDrop->SourceInventory && InventoryComponentRef)
 	{
-		// if it is, htne we return true which will prevent to drop the item on the panel
+		// if it is, then we return true which will prevent to drop the item on the panel
 		return true;
 	}
 	return false;
 }
 
 // using the Wrap Box
-
 // void UInventoryWidget::RefreshInventory()
 // {
 // 	if(InventoryComponentRef && InventorySlotClass)
@@ -50,7 +50,7 @@ bool UInventoryWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDrop
 // 		// to get the most updated inventory we clear the previous inventory
 // 		InventoryWrapBox->ClearChildren();
 //
-// 		// iterating through all of the Inventory items in the array and creates a slot of each item in the inventory Panel
+// 		// iterating through all the Inventory items in the array and creates a slot of each item in the inventory Panel
 // 		for (UItemBase* const& InventoryItem : InventoryComponentRef->GetInventoryContents())
 // 		{
 // 			UInventoryItemSlot* ItemSlot =  CreateWidget<UInventoryItemSlot>(this, InventorySlotClass);
@@ -64,30 +64,46 @@ bool UInventoryWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDrop
 // 	}
 // }
 
-// Using the Grid Panel
+// using the GridPanel
 void UInventoryWidget::RefreshInventory()
 {
 	if(InventoryComponentRef && InventorySlotClass)
 	{
-		// to get the most updated inventory we clear the previous inventory
+		// Clear the previous inventory
 		InventoryGridPanel->ClearChildren();
 
-		TArray<UItemBase*> InventoryItems = InventoryComponentRef->GetInventoryContents();
-		const int32 NumColumns = 5;
+		int32 Column = 0;
+		int32 Row = 0;
 
-		for(int32 i = 0; i < InventoryItems.Num(); i++)
+		// Iterating through all the Inventory items in the array
+		for (UItemBase* const& InventoryItem : InventoryComponentRef->GetInventoryContents())
 		{
 			UInventoryItemSlot* ItemSlot = CreateWidget<UInventoryItemSlot>(this, InventorySlotClass);
-			ItemSlot->SetItemReference(InventoryItems[i]);
+			ItemSlot->SetItemReference(InventoryItem);
 
-			const int32 Rows = i / NumColumns;
-			const int32 Columns = i % NumColumns;
+			// Create and add the ItemSlot to the Inventory Panel
+			UGridSlot* GridSlot = InventoryGridPanel->AddChildToGrid(ItemSlot);
+			GridSlot->SetRow(Row);
+			GridSlot->SetColumn(Column);
 
-			InventoryGridPanel->AddChildToGrid(ItemSlot, Rows, Columns);
+			// Move to the next column and wrap to the next row if necessary
+			++Column;
+			if (constexpr int32 MaxColumns = 6; Column >= MaxColumns)
+			{
+				Column = 0;
+				++Row;
+			}
 		}
 
 		SetInfoText();
 	}
+}
+
+void UInventoryWidget::InitializeGrid(float InTileSize)
+{
+	if(InventoryComponentRef == nullptr) return;
+	
+	TileSize = InTileSize;
 }
 
 void UInventoryWidget::SetInfoText() const

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Items/ItemBase.h"
 #include "InventoryItemSlot.generated.h"
 
 class UImage;
@@ -25,6 +26,8 @@ public:
 
 	FORCEINLINE void SetItemReference(UItemBase* ItemIn) { ItemReference = ItemIn; }
 	FORCEINLINE UItemBase* GetItemReference() const { return ItemReference; }
+	FORCEINLINE int32 GetItemHeight() const { return ItemReference->NumericData.ItemHeight; }
+	FORCEINLINE int32 GetItemWidth() const { return ItemReference->NumericData.ItemWidth; }
 
 protected:
 	

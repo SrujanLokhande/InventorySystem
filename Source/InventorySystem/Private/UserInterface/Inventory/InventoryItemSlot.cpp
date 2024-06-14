@@ -48,7 +48,7 @@ void UInventoryItemSlot::NativeConstruct()
 		}
 
 		// setting the item icon from datatable
-		IMG_ItemIcon->SetBrushFromTexture(ItemReference->AssetData.Icon);
+		IMG_ItemIcon->SetBrushFromTexture(ItemReference->AssetData.Icon); 		
 
 		if(ItemReference->NumericData.bIsStackable)
 		{

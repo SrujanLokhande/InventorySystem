@@ -79,6 +79,12 @@ public:
 	//=============================================================================
 	// PROPERTIES
 	//=============================================================================
+
+	UPROPERTY(BlueprintReadOnly, EditInstanceOnly, Category = "Constants", meta =(ExposeOnSpawn = true))
+	int32 Columns;
+
+	UPROPERTY(BlueprintReadOnly, EditInstanceOnly, Category = "Constants", meta =(ExposeOnSpawn = true))
+	int32 Rows;
 	
 	// whenever we add or adjust the inventory items we will use this delegate to broadcast the update
 	FOnInventoryUpdated OnInventoryUpdated;

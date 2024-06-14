@@ -26,6 +26,10 @@ public:
 	UFUNCTION()
 	void RefreshInventory();
 
+	// to make the grid lines of the widget
+	UFUNCTION()
+	void InitializeGrid(float InTileSize);	
+
 	// UPROPERTY(meta=(BindWidget))
 	// UWrapBox* InventoryWrapBox;
 
@@ -58,4 +62,10 @@ protected:
 	// when something is dropped on the UI
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
 		UDragDropOperation* InOperation) override;
+
+private:
+
+	UPROPERTY()
+	float TileSize;
+
 };
