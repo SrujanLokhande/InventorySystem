@@ -4,11 +4,22 @@
 #include "UserInterface/MainMenuWidget.h"
 #include "InventorySystem/InventorySystemCharacter.h"
 #include "Items/ItemBase.h"
+#include "UserInterface/Inventory/InventoryWidget.h"
 #include "UserInterface/Inventory/ItemDragDropOperation.h"
+
 
 void UMainMenuWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
+
+	FTimerHandle TimerHandle;
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this]()
+	{
+		if(InventoryWidget)
+		{
+			InventoryWidget->InitializeGrid(TileSize);
+		}
+	}, 0.2f, false);
 }
 
 void UMainMenuWidget::NativeConstruct()
@@ -30,3 +41,9 @@ bool UMainMenuWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropE
 	}
 	return false;
 }
+
+void UMainMenuWidget::SetTileSize(float InTileSize)
+{
+	TileSize = InTileSize;
+}
+

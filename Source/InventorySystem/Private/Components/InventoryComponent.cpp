@@ -6,6 +6,8 @@
 UInventoryComponent::UInventoryComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
+	Columns = 6.0f;
+	Rows = 6.0f;
 }
 
 void UInventoryComponent::BeginPlay()

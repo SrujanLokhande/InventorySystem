@@ -22,7 +22,9 @@ void AInventorySystemHUD::BeginPlay()
 		// Here UMainMenu::StaticClass would fail because Static Class only gets the C++ version
 		// but the MainMenuClass has the Blueprint version because it is designed in the editor
 		MainMenuWidget = CreateWidget<UMainMenuWidget>(GetWorld(), MainMenuClass);
+		MainMenuWidget->SetTileSize(105.0f);
 		MainMenuWidget->AddToViewport(5);
+		
 
 		// the difference between hidden and collapsed is that making it hidden it will still have tasks running in bg
 		// collapsed is more performant because it does not have tasks running in bg

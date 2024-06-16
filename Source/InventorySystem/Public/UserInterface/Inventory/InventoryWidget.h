@@ -4,9 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "InventorySystem/DataStructure/DS_Line.h"
 #include "InventoryWidget.generated.h"
 
+class UCanvasPanel;
 class UGridPanel;
+class UBorder;
 class UInventoryItemSlot;
 class UInventoryComponent;
 class AInventorySystemCharacter;
@@ -33,8 +36,16 @@ public:
 	// UPROPERTY(meta=(BindWidget))
 	// UWrapBox* InventoryWrapBox;
 
+	// UPROPERTY(meta=(BindWidget))
+	// UGridPanel* InventoryGridPanel;
+
+	// Canvas panel to display the inventory grid
 	UPROPERTY(meta=(BindWidget))
-	UGridPanel* InventoryGridPanel;
+	UCanvasPanel* GridCanvasPanel;
+
+	// Inventory Grid Border
+	UPROPERTY(meta=(BindWidget))
+	UBorder* GridBorder;
 	
 	UPROPERTY(meta=(BindWidget))
 	UTextBlock* TXT_WeightInfo;
@@ -51,7 +62,14 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory Slot")
 	TSubclassOf<UInventoryItemSlot> InventorySlotClass;
 
+	virtual int32 NativePaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const override;
 protected:
+
+	UPROPERTY()
+	TArray<FLine> Lines;
+
+	UPROPERTY()
+	double TileSize;
 
 	// setting the info text to the UI
 	void SetInfoText() const;
@@ -63,9 +81,11 @@ protected:
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
 		UDragDropOperation* InOperation) override;
 
-private:
+	UFUNCTION()
+	void CreateLineSegment();
 
-	UPROPERTY()
-	float TileSize;
+	UFUNCTION()
+	void SetGridBorderSize();
+	
 
 };

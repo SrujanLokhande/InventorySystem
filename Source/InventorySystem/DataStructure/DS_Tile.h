@@ -3,7 +3,7 @@
 #include "DS_Tile.generated.h"
 
 USTRUCT()
-struct F_Tile
+struct FTile
 {
 	GENERATED_BODY()
 	

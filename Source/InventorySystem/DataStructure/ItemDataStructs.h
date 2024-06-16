@@ -44,7 +44,6 @@ struct FITemStats
 	float SellValue;	
 };
 
-
 // the item information to be displayed to user
 USTRUCT()
 struct FItemTextData
