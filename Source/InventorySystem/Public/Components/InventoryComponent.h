@@ -9,6 +9,7 @@
 DECLARE_MULTICAST_DELEGATE(FOnInventoryUpdated);
 
 class UItemBase;
+class UDataTable;
 // this enum class is for deciding the states for the item pickup
 // if the players inventory is full then NoItemAdded, 
 // if only some quantity from the world is picked up then PartialAmountAdded
@@ -79,12 +80,6 @@ public:
 	//=============================================================================
 	// PROPERTIES
 	//=============================================================================
-
-	UPROPERTY(BlueprintReadOnly, EditInstanceOnly, Category = "Constants", meta =(ExposeOnSpawn = true))
-	int32 Columns;
-
-	UPROPERTY(BlueprintReadOnly, EditInstanceOnly, Category = "Constants", meta =(ExposeOnSpawn = true))
-	int32 Rows;
 	
 	// whenever we add or adjust the inventory items we will use this delegate to broadcast the update
 	FOnInventoryUpdated OnInventoryUpdated;
@@ -140,6 +135,15 @@ public:
 	UFUNCTION(Category = "Inventory")
 	FORCEINLINE void SetWeightCapacity(const float NewWeightCapacity) {InventoryWeightCapacity = NewWeightCapacity;}
 
+	UFUNCTION(Category = "InventoryGrid")
+	FORCEINLINE int32 GetGridColumns() const { return GridColumns; }
+
+	UFUNCTION(Category = "InventoryGrid")
+	FORCEINLINE int32 GetGridRows() const { return GridRows; }
+
+	UFUNCTION(Category = "InventoryGrid")
+	FORCEINLINE float GetGridTileSize() const { return GridTileSize; } 
+
 protected:
 
 	//=============================================================================
@@ -156,6 +160,19 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
 	TArray<TObjectPtr<UItemBase>> InventoryContents;
+
+	UPROPERTY(BlueprintReadOnly, EditInstanceOnly, Category = "Constants", meta =(ExposeOnSpawn = true))
+	int32 GridColumns;
+
+	UPROPERTY(BlueprintReadOnly, EditInstanceOnly, Category = "Constants", meta =(ExposeOnSpawn = true))
+	int32 GridRows;
+
+	UPROPERTY(BlueprintReadOnly, EditInstanceOnly, Category = "Constants", meta =(ExposeOnSpawn = true))
+	float GridTileSize;
+
+	// The data table with all the info we give to a specific actor
+	UPROPERTY(EditDefaultsOnly, Category = "Grid | Inventory Grid Database")
+	UDataTable* GridDataTable;
 	
 	//=============================================================================
 	// FUNCTIONS
@@ -177,4 +194,7 @@ protected:
 	// to actually add new items
 	UFUNCTION(Category = "Inventory")
 	void AddNewItem(UItemBase* Item, const int32 AmountToAdd);
+
+	// Take the Grid DataValues from the DataTable
+	void InitializeGridData();
 };

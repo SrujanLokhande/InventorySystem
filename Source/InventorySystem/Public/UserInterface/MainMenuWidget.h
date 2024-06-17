@@ -7,6 +7,7 @@
 #include "MainMenuWidget.generated.h"
 
 
+class UInventoryComponent;
 class UInventoryWidget;
 class AInventorySystemCharacter;
 /**
@@ -22,10 +23,13 @@ public:
 	UPROPERTY()
 	AInventorySystemCharacter* PlayerCharacter;
 
-	UFUNCTION()
-	void SetTileSize(float InTileSize);
-
 protected:
+	
+	UPROPERTY(meta=(BindWidget))
+	UInventoryWidget* InventoryWidget;
+
+	UPROPERTY()
+	UInventoryComponent* InventoryComponentRef;
 	
 	virtual void NativeOnInitialized() override;
 	virtual void NativeConstruct() override;
@@ -34,9 +38,4 @@ protected:
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
 		UDragDropOperation* InOperation) override;
 
-	UPROPERTY(meta=(BindWidget))
-	UInventoryWidget* InventoryWidget;
-
-	UPROPERTY(BlueprintReadOnly, EditInstanceOnly, meta=(ExposeOnSpawn))
-	float TileSize = 0.0f;
 };

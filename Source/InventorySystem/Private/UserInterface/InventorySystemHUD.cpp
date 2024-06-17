@@ -21,8 +21,7 @@ void AInventorySystemHUD::BeginPlay()
 	{
 		// Here UMainMenu::StaticClass would fail because Static Class only gets the C++ version
 		// but the MainMenuClass has the Blueprint version because it is designed in the editor
-		MainMenuWidget = CreateWidget<UMainMenuWidget>(GetWorld(), MainMenuClass);
-		MainMenuWidget->SetTileSize(105.0f);
+		MainMenuWidget = CreateWidget<UMainMenuWidget>(GetWorld(), MainMenuClass);		
 		MainMenuWidget->AddToViewport(5);
 		
 

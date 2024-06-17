@@ -131,16 +131,16 @@ void UInventoryWidget::SetGridBorderSize()
 	if(UCanvasPanelSlot* CanvasPanelSlot = UWidgetLayoutLibrary::SlotAsCanvasSlot(GridBorder))
 	{
 		FVector2D NewSize;
-		NewSize.X = InventoryComponentRef->Columns * TileSize;
-		NewSize.Y = InventoryComponentRef->Rows * TileSize;
+		NewSize.X = InventoryComponentRef->GetGridColumns() * TileSize;
+		NewSize.Y = InventoryComponentRef->GetGridRows() * TileSize;
 		CanvasPanelSlot->SetSize(NewSize);
 	}
 }
 
 void UInventoryWidget::CreateLineSegment()
 {	
-	int32 Columns = InventoryComponentRef->Columns;
-	int32 Rows = InventoryComponentRef->Rows;
+	int32 Columns = InventoryComponentRef->GetGridColumns();
+	int32 Rows = InventoryComponentRef->GetGridRows();
 	double TileSizeLocal = this->TileSize;
 
 	// Create Vertical Lines

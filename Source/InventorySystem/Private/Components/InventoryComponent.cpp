@@ -1,18 +1,21 @@
 // Copyright Srujan Lokhande @2024
 
 #include "Components/InventoryComponent.h"
+
+#include "InterchangeResult.h"
+#include "InventorySystem/DataStructure/InventoryGridDataStruct.h"
 #include "Items/ItemBase.h"
 
 UInventoryComponent::UInventoryComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
-	Columns = 6.0f;
-	Rows = 6.0f;
 }
 
 void UInventoryComponent::BeginPlay()
 {
-	Super::BeginPlay();	
+	Super::BeginPlay();
+
+	InitializeGridData();
 }
 
 // this functions just checks if the current item pointer is already in the array or not
@@ -296,6 +299,25 @@ void UInventoryComponent::AddNewItem(UItemBase* Item, const int32 AmountToAdd)
 	InventoryContents.Add(NewItem);
 	InventoryTotalWeight += NewItem->GetItemStackWeight();
 	OnInventoryUpdated.Broadcast();
+}
+
+void UInventoryComponent::InitializeGridData()
+{
+	if(!GridDataTable)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Grid Data Table Not set"));
+		return;
+	}
+
+	static const FString Context("Inventory Grid Data Table");
+	FGridData* InventoryGridData = GridDataTable->FindRow<FGridData>(FName(TEXT("GridData")), Context);
+
+	if(InventoryGridData)
+	{
+		GridColumns = InventoryGridData->GridSizeData.GridColumns;
+		GridRows = InventoryGridData->GridSizeData.GridRows;
+		GridTileSize = InventoryGridData->GridSizeData.GridTileSize;
+	}
 }
 
 

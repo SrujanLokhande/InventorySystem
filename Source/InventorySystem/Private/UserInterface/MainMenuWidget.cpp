@@ -2,6 +2,8 @@
 
 
 #include "UserInterface/MainMenuWidget.h"
+
+#include "Components/InventoryComponent.h"
 #include "InventorySystem/InventorySystemCharacter.h"
 #include "Items/ItemBase.h"
 #include "UserInterface/Inventory/InventoryWidget.h"
@@ -15,9 +17,9 @@ void UMainMenuWidget::NativeOnInitialized()
 	FTimerHandle TimerHandle;
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this]()
 	{
-		if(InventoryWidget)
+		if(InventoryWidget && InventoryComponentRef)
 		{
-			InventoryWidget->InitializeGrid(TileSize);
+			InventoryWidget->InitializeGrid(InventoryComponentRef->GetGridTileSize());
 		}
 	}, 0.2f, false);
 }
@@ -27,6 +29,7 @@ void UMainMenuWidget::NativeConstruct()
 	Super::NativeConstruct();
 	
 	PlayerCharacter = Cast<AInventorySystemCharacter>(GetOwningPlayerPawn());
+	InventoryComponentRef = PlayerCharacter->GetInventory();
 }
 
 bool UMainMenuWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
@@ -40,10 +43,5 @@ bool UMainMenuWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropE
 		return true;
 	}
 	return false;
-}
-
-void UMainMenuWidget::SetTileSize(float InTileSize)
-{
-	TileSize = InTileSize;
 }
 
