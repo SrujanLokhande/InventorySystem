@@ -25,6 +25,7 @@ class INVENTORYSYSTEM_API UInventoryItemSlot : public UUserWidget
 public:
 
 	FORCEINLINE void SetItemReference(UItemBase* ItemIn) { ItemReference = ItemIn; }
+	FORCEINLINE void SetTileSize(float InTileSize) { TileSize = InTileSize; }
 	FORCEINLINE UItemBase* GetItemReference() const { return ItemReference; }
 	FORCEINLINE int32 GetItemHeight() const { return ItemReference->NumericData.ItemHeight; }
 	FORCEINLINE int32 GetItemWidth() const { return ItemReference->NumericData.ItemWidth; }
@@ -40,6 +41,9 @@ protected:
 	UPROPERTY(VisibleAnywhere ,Category = "Inventory Slot")
 	UItemBase* ItemReference;
 
+	UPROPERTY(VisibleAnywhere ,Category = "Inventory Slot")
+	float TileSize;
+
 	// for the square shaped Item Image inside the inventory panel
 	UPROPERTY(VisibleAnywhere, Category = "Inventory Slot", meta=(BindWidget))
 	UBorder* ItemBorder;
@@ -52,12 +56,14 @@ protected:
 
 	virtual void NativeOnInitialized() override;
 	virtual void NativeConstruct() override;
-	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
-	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
+	
+	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;	
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent,
 		UDragDropOperation*& OutOperation) override;
-	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
-		UDragDropOperation* InOperation) override;
+
+	UFUNCTION()
+	FVector2D CalculateDragVisualSize() const;
+
 };
 
 

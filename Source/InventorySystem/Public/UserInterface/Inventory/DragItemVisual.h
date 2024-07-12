@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "DragItemVisual.generated.h"
 
+class USizeBox;
 /**
  * 
  */
@@ -17,7 +18,10 @@ class INVENTORYSYSTEM_API UDragItemVisual : public UUserWidget
 {
 	GENERATED_BODY()
 
-public:	
+public:
+
+	UPROPERTY(VisibleAnywhere, Category = "Drag Item Visual", meta=(BindWidget))
+	USizeBox* ItemSize;
 
 	// for the square shaped Item Image inside the inventory panel
 	UPROPERTY(VisibleAnywhere, Category = "Drag Item Visual", meta=(BindWidget))

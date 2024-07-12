@@ -2,8 +2,11 @@
 
 #include "UserInterface/Inventory/InventoryItemSlot.h"
 
+#include "Blueprint/WidgetLayoutLibrary.h"
 #include "Components/Border.h"
+#include "Components/CanvasPanelSlot.h"
 #include "Components/Image.h"
+#include "Components/SizeBox.h"
 #include "Components/TextBlock.h"
 #include "Items/ItemBase.h"
 #include "UserInterface/Inventory/DragItemVisual.h"
@@ -76,11 +79,6 @@ FReply UInventoryItemSlot::NativeOnMouseButtonDown(const FGeometry& InGeometry, 
 	return Reply.Unhandled();
 }
 
-void UInventoryItemSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
-{
-	Super::NativeOnMouseLeave(InMouseEvent);
-}
-
 void UInventoryItemSlot::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent,
 	UDragDropOperation*& OutOperation)
 {
@@ -90,10 +88,27 @@ void UInventoryItemSlot::NativeOnDragDetected(const FGeometry& InGeometry, const
 	if(DragItemVisualClass)
 	{
 		const TObjectPtr<UDragItemVisual> DragVisual = CreateWidget<UDragItemVisual>(this, DragItemVisualClass);
-		DragVisual->IMG_ItemIcon->SetBrushFromTexture(ItemReference->AssetData.Icon);
+
+		FVector2D DragVisualSize = CalculateDragVisualSize();
+		if(UCanvasPanelSlot* DragVisualSlot = UWidgetLayoutLibrary::SlotAsCanvasSlot(DragVisual->GetRootWidget()))
+		{
+			DragVisualSlot->SetSize(DragVisualSize);
+		}
+
+		if(USizeBox* DragVisualSizeBox = Cast<USizeBox>(DragVisual->GetWidgetFromName("ItemSize")))
+		{
+			DragVisualSizeBox->SetWidthOverride(DragVisualSize.X);
+			DragVisualSizeBox->SetHeightOverride(DragVisualSize.Y);
+		}
+		if(UCanvasPanelSlot* ImageSlot = UWidgetLayoutLibrary::SlotAsCanvasSlot(DragVisual->IMG_ItemIcon))
+		{
+			ImageSlot->SetSize(DragVisualSize);
+		}
+		
+		DragVisual->IMG_ItemIcon->SetBrushFromTexture(ItemReference->AssetData.Icon);		
 		DragVisual->ItemBorder->SetBrushColor(ItemBorder->GetBrushColor());
 		DragVisual->TXT_ItemQuantity->SetText(FText::AsNumber(ItemReference->ItemQuantity));
-
+		
 		// checking if the item is not stackable then dont show the item quantity
 		ItemReference->NumericData.bIsStackable
 		? DragVisual->TXT_ItemQuantity->SetText(FText::AsNumber(ItemReference->ItemQuantity))
@@ -112,8 +127,14 @@ void UInventoryItemSlot::NativeOnDragDetected(const FGeometry& InGeometry, const
 	}
 }
 
-bool UInventoryItemSlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
-	UDragDropOperation* InOperation)
+FVector2D UInventoryItemSlot::CalculateDragVisualSize() const
 {
-	return Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
+	if(ItemReference)
+	{
+		FIntPoint ItemDimensions = ItemReference->GetItemDimensions();
+		return FVector2D(ItemDimensions.X * TileSize, ItemDimensions.Y * TileSize);
+	}
+	return FVector2D::ZeroVector;
 }
+
+

@@ -22,4 +22,7 @@ public:
 
 	UPROPERTY()
 	UInventoryComponent* SourceInventory;
+
+	UPROPERTY()
+	bool bWasDragged;
 };

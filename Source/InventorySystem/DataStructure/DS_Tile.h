@@ -8,8 +8,8 @@ struct FTile
 	GENERATED_BODY()
 	
 	UPROPERTY(EditAnywhere)
-	int X;
+	int32 X;
 
 	UPROPERTY(EditAnywhere)
-	int Y;
+	int32 Y;
 };

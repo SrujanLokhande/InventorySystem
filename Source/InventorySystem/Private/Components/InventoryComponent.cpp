@@ -3,6 +3,7 @@
 #include "Components/InventoryComponent.h"
 
 #include "InterchangeResult.h"
+#include "InventorySystem/DataStructure/DS_Tile.h"
 #include "InventorySystem/DataStructure/InventoryGridDataStruct.h"
 #include "Items/ItemBase.h"
 
@@ -279,6 +280,8 @@ FItemAddResult UInventoryComponent::HandleAddItem(UItemBase* InputItem)
 
 void UInventoryComponent::AddNewItem(UItemBase* Item, const int32 AmountToAdd)
 {
+
+	GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Red, FString("Adding New Item"));
 	UItemBase* NewItem;
 
 	// if the item is from the world, or is already a copy
@@ -296,9 +299,13 @@ void UInventoryComponent::AddNewItem(UItemBase* Item, const int32 AmountToAdd)
 	NewItem->OwningInventory = this;
 	NewItem->ItemQuantity = AmountToAdd;
 
+	// for the grid inventory, not the inventory array
+	//TryAddItem(NewItem);
+	
 	InventoryContents.Add(NewItem);
-	InventoryTotalWeight += NewItem->GetItemStackWeight();
+	InventoryTotalWeight += NewItem->GetItemStackWeight();	
 	OnInventoryUpdated.Broadcast();
+
 }
 
 void UInventoryComponent::InitializeGridData()
@@ -319,8 +326,3 @@ void UInventoryComponent::InitializeGridData()
 		GridTileSize = InventoryGridData->GridSizeData.GridTileSize;
 	}
 }
-
-
-
-
-

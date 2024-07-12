@@ -11,13 +11,23 @@
   <component name="ChangeListManager">
     <list default="true" id="7e3a5ab4-8bab-4ff4-93d7-c119ae19cada" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.InventorySystem/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.InventorySystem/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/DataStructures/DT_InventoryGridData.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/DataStructures/DT_InventoryGridData.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/DataStructures/DT_Test.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/DataStructures/DT_Test.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_DragItemVisual.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_DragItemVisual.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_InventoryItemSlot.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_InventoryItemSlot.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_InventoryWidget.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_InventoryWidget.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_MainMenuWidget.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_MainMenuWidget.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/DataStructure/DS_Tile.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/DataStructure/DS_Tile.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/DataStructure/ItemDataStructs.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/DataStructure/ItemDataStructs.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/Actors/Pickup.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/Actors/Pickup.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/Components/InventoryComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/Components/InventoryComponent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryItemSlot.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryItemSlot.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryWidget.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/InventorySystemHUD.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/InventorySystemHUD.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/MainMenuWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/MainMenuWidget.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/Components/InventoryComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/Components/InventoryComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/MainMenuWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/MainMenuWidget.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/Items/ItemBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/Items/ItemBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/InventoryItemSlot.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/InventoryItemSlot.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/InventoryWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/InventoryWidget.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/ItemDragDropOperation.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/ItemDragDropOperation.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -261,7 +271,35 @@
       <workItem from="1718479562087" duration="3277000" />
       <workItem from="1718504251994" duration="5909000" />
       <workItem from="1718597889553" duration="595000" />
-      <workItem from="1718631961653" duration="4319000" />
+      <workItem from="1718631961653" duration="5582000" />
+      <workItem from="1718647366926" duration="13874000" />
+      <workItem from="1718857074776" duration="1266000" />
+      <workItem from="1718927545444" duration="586000" />
+      <workItem from="1718934276592" duration="1190000" />
+      <workItem from="1719266659651" duration="1910000" />
+      <workItem from="1719294986506" duration="1311000" />
+      <workItem from="1719342247804" duration="4039000" />
+      <workItem from="1719379884549" duration="1775000" />
+      <workItem from="1719537523276" duration="5939000" />
+      <workItem from="1719622651882" duration="3774000" />
+      <workItem from="1719691554779" duration="1863000" />
+      <workItem from="1719693972357" duration="4768000" />
+      <workItem from="1719894106573" duration="600000" />
+      <workItem from="1719928602367" duration="1225000" />
+      <workItem from="1719984411117" duration="728000" />
+      <workItem from="1720130756762" duration="580000" />
+      <workItem from="1720212600906" duration="3988000" />
+      <workItem from="1720220905834" duration="1700000" />
+      <workItem from="1720303628491" duration="4686000" />
+      <workItem from="1720314897831" duration="597000" />
+      <workItem from="1720331820901" duration="3396000" />
+      <workItem from="1720408460919" duration="585000" />
+      <workItem from="1720460658860" duration="1778000" />
+      <workItem from="1720462496626" duration="2245000" />
+      <workItem from="1720481102649" duration="16189000" />
+      <workItem from="1720542996256" duration="560000" />
+      <workItem from="1720564812431" duration="1924000" />
+      <workItem from="1720730191803" duration="550000" />
     </task>
     <task id="LOCAL-00001" summary="Handled the stackable items stacking up and made the inventory to be fully functional">
       <option name="closed" value="true" />

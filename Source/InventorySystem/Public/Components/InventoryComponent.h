@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "InventoryComponent.generated.h"
 
+struct FTile;
 DECLARE_MULTICAST_DELEGATE(FOnInventoryUpdated);
 
 class UItemBase;
@@ -112,7 +113,7 @@ public:
 	int32 RemoveAmountOfItem(UItemBase* ItemIn, int32 DesiredAmountToRemove);
 
 	UFUNCTION(Category = "Inventory")
-	void SplitExistingStack(UItemBase* ItemIn, int32 AmountToSplit);
+	void SplitExistingStack(UItemBase* ItemIn, int32 AmountToSplit);	
 
 	// Getter functions
 	UFUNCTION(Category = "Inventory")
@@ -142,7 +143,7 @@ public:
 	FORCEINLINE int32 GetGridRows() const { return GridRows; }
 
 	UFUNCTION(Category = "InventoryGrid")
-	FORCEINLINE float GetGridTileSize() const { return GridTileSize; } 
+	FORCEINLINE float GetGridTileSize() const { return GridTileSize; }	
 
 protected:
 
@@ -173,6 +174,9 @@ protected:
 	// The data table with all the info we give to a specific actor
 	UPROPERTY(EditDefaultsOnly, Category = "Grid | Inventory Grid Database")
 	UDataTable* GridDataTable;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Grid | Inventory")
+	bool IsDirty = false;
 	
 	//=============================================================================
 	// FUNCTIONS
@@ -197,4 +201,5 @@ protected:
 
 	// Take the Grid DataValues from the DataTable
 	void InitializeGridData();
+	
 };

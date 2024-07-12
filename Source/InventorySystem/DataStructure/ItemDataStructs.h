@@ -97,6 +97,9 @@ struct FItemAssetData
 
 	UPROPERTY(EditAnywhere)
 	UStaticMesh* ItemMesh;
+
+	UPROPERTY(EditAnywhere)
+	FIntPoint ItemDimensions;
 	
 };
 

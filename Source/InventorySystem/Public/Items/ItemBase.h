@@ -7,6 +7,7 @@
 #include "InventorySystem/DataStructure/ItemDataStructs.h"
 #include "ItemBase.generated.h"
 
+class UMaterialInterface;
 class AInventorySystemCharacter;
 class UInventoryComponent;
 /**
@@ -72,6 +73,10 @@ public:
 	UFUNCTION(Category = "Item")
 	FORCEINLINE bool IsItemFullStack() const { return ItemQuantity == NumericData.maxStackSize ; }
 
+	// returns the dimensions of the inventory object icon
+	UFUNCTION(Category = "Item")
+	FORCEINLINE FIntPoint GetItemDimensions() const { return AssetData.ItemDimensions; }
+
 	// Setter for the item quantity
 	UFUNCTION(Category = "Item")
 	void SetItemQuantity(const int32 NewQuantity);
@@ -87,4 +92,14 @@ protected:
 	{
 		return this->ID == OtherID;
 	}
+	
+	UPROPERTY(BlueprintReadOnly, EditInstanceOnly, meta=(ExposeOnSpawn))
+	UMaterialInterface* Icon;
+
+	UPROPERTY(BlueprintReadOnly, EditInstanceOnly, meta=(ExposeOnSpawn))
+	UMaterialInterface* IconRotated;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool IsRotated;
+	
 };

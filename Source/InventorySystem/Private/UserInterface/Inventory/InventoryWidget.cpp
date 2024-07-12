@@ -1,15 +1,13 @@
 // Copyright Srujan Lokhande @2024
 #include "UserInterface/Inventory/InventoryWidget.h"
-
 #include "Blueprint/SlateBlueprintLibrary.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Components/Border.h"
+#include "Components/CanvasPanel.h"
 #include "Components/CanvasPanelSlot.h"
-#include "Components/GridPanel.h"
 #include "Components/InventoryComponent.h"
 #include "Components/TextBlock.h"
-#include "Components/WrapBox.h"
 #include "InventorySystem/InventorySystemCharacter.h"
 #include "Items/ItemBase.h"
 #include "UserInterface/Inventory/InventoryItemSlot.h"
@@ -38,79 +36,91 @@ bool UInventoryWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDrop
 	const UItemDragDropOperation* ItemDragDrop = Cast<UItemDragDropOperation>(InOperation);
 
 	// detecting if the drop operation is happening on the same panel i.e. on the inventory panel
-	if(ItemDragDrop->SourceInventory && InventoryComponentRef)
+	if(ItemDragDrop && ItemDragDrop->SourceItem)
 	{
-		// if it is, then we return true which will prevent to drop the item on the panel
-		return true;
+		FVector2D DropPosition = InGeometry.AbsoluteToLocal(InDragDropEvent.GetScreenSpacePosition());
+		if(CanPlaceItemAt(ItemDragDrop->SourceItem, DropPosition))
+		{
+			UInventoryItemSlot* ItemSlot = GetItemSlotForItem(ItemDragDrop->SourceItem);
+			if(ItemSlot)
+			{
+				FVector2D SnappedPosition(
+					FMath::FloorToInt(DropPosition.X / TileSize) * TileSize,
+					FMath::FloorToInt(DropPosition.Y / TileSize) * TileSize);
+
+				UpdateItemPosition(ItemSlot, SnappedPosition);
+				ItemSlot->SetVisibility(ESlateVisibility::Visible);
+
+				// if it is, then we return true which will prevent to drop the item on the panel
+				return true;				
+			}			
+		}		
 	}
 	return false;
 }
 
-// using the Wrap Box
-// void UInventoryWidget::RefreshInventory()
-// {
-// 	if(InventoryComponentRef && InventorySlotClass)
-// 	{
-// 		// to get the most updated inventory we clear the previous inventory
-// 		InventoryWrapBox->ClearChildren();
-//
-// 		// iterating through all the Inventory items in the array and creates a slot of each item in the inventory Panel
-// 		for (UItemBase* const& InventoryItem : InventoryComponentRef->GetInventoryContents())
-// 		{
-// 			UInventoryItemSlot* ItemSlot =  CreateWidget<UInventoryItemSlot>(this, InventorySlotClass);
-// 			ItemSlot->SetItemReference(InventoryItem);
-//
-// 			// this creates and adds the ItemSlot in the Inventory Panel
-// 			InventoryWrapBox->AddChildToWrapBox(ItemSlot);
-// 		}
-//
-// 		SetInfoText();
-// 	}
-// }
-
-// using the GridPanel
-// void UInventoryWidget::RefreshInventory()
-// {
-// 	if(InventoryComponentRef && InventorySlotClass)
-// 	{
-// 		// Clear the previous inventory
-// 		InventoryGridPanel->ClearChildren();
-//
-// 		int32 Column = 0;
-// 		int32 Row = 0;
-//
-// 		// Iterating through all the Inventory items in the array
-// 		for (UItemBase* const& InventoryItem : InventoryComponentRef->GetInventoryContents())
-// 		{
-// 			UInventoryItemSlot* ItemSlot = CreateWidget<UInventoryItemSlot>(this, InventorySlotClass);
-// 			ItemSlot->SetItemReference(InventoryItem);
-//
-// 			// Create and add the ItemSlot to the Inventory Panel
-// 			UGridSlot* GridSlot = InventoryGridPanel->AddChildToGrid(ItemSlot);
-// 			GridSlot->SetRow(Row);
-// 			GridSlot->SetColumn(Column);
-//
-// 			// Move to the next column and wrap to the next row if necessary
-// 			++Column;
-// 			if (constexpr int32 MaxColumns = 6; Column >= MaxColumns)
-// 			{
-// 				Column = 0;
-// 				++Row;
-// 			}
-// 		}
-//
-// 		SetInfoText();
-// 	}
-// }
-
 //using the Canvas Panel
 void UInventoryWidget::RefreshInventory()
 {
-	if(InventoryComponentRef && InventorySlotClass)
-	{		
+	if(!InventoryComponentRef || !InventorySlotClass || !GridCanvasPanel) return;
 
-		SetInfoText();
+	GridCanvasPanel->ClearChildren();
+
+	int32 GridColumns = InventoryComponentRef->GetGridColumns();
+	//int32 Index = 0;
+	int32 GridRows = InventoryComponentRef->GetGridRows();
+
+	// Create a 2D array to represent the grid
+	TArray<TArray<bool>> OccupiedGrid;
+	OccupiedGrid.SetNum(GridRows);
+
+	for(int32 i = 0; i < GridRows; ++i)
+	{
+		OccupiedGrid[i].SetNum(GridColumns);
+		OccupiedGrid[i].Init(false, GridColumns);
 	}
+	
+	for(UItemBase*& Item : InventoryComponentRef->GetInventoryContents())
+	{
+		UInventoryItemSlot* ItemSlot = CreateWidget<UInventoryItemSlot>(this, InventorySlotClass);
+		if(ItemSlot)
+		{
+			ItemSlot->SetItemReference(Item);
+			ItemSlot->SetTileSize(TileSize);
+			FIntPoint ItemDimensions = Item->GetItemDimensions();
+			
+			FVector2D SlotSize(ItemDimensions.X * TileSize, ItemDimensions.Y * TileSize);
+
+			// Find the next available position for the item
+			FIntPoint Position = FindNextAvailablePosition(OccupiedGrid, ItemDimensions);
+
+			if(Position.X != -1 && Position.Y != -1)
+			{
+				UCanvasPanelSlot* CanvasPanelSlot = GridCanvasPanel->AddChildToCanvas(ItemSlot);
+				if(CanvasPanelSlot)
+				{
+					CanvasPanelSlot->SetSize(SlotSize);
+					FVector2D PositionPixels(Position.X * TileSize, Position.Y * TileSize);
+					CanvasPanelSlot->SetPosition(PositionPixels);
+
+					// Mark the tile occupied
+					for (int32 Y = Position.Y; Y < Position.Y + ItemDimensions.Y; ++Y)
+					{
+						for (int32 X = Position.X; X < Position.X + ItemDimensions.X; ++X)
+						{
+							if(Y < GridRows && X < GridColumns)
+							{
+								OccupiedGrid[Y][X] = true;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+	}
+	SetInfoText();
+	UpdateSlotMap();
 }
 
 void UInventoryWidget::InitializeGrid(float InTileSize)
@@ -125,6 +135,15 @@ void UInventoryWidget::InitializeGrid(float InTileSize)
 	CreateLineSegment();
 }
 
+UInventoryItemSlot* UInventoryWidget::GetItemSlotForItem(UItemBase* ItemBase)
+{
+	if(ItemToSlotMap.Contains(ItemBase))
+	{
+		return ItemToSlotMap[ItemBase];
+	}
+	return nullptr;
+}
+
 void UInventoryWidget::SetGridBorderSize()
 {
 	if(!GridBorder) return;
@@ -134,6 +153,58 @@ void UInventoryWidget::SetGridBorderSize()
 		NewSize.X = InventoryComponentRef->GetGridColumns() * TileSize;
 		NewSize.Y = InventoryComponentRef->GetGridRows() * TileSize;
 		CanvasPanelSlot->SetSize(NewSize);
+	}
+}
+
+FIntPoint UInventoryWidget::FindNextAvailablePosition(const TArray<TArray<bool>>& OccupiedGrid,
+	const FIntPoint& ItemDimensions)
+{
+	int32 GridRows = OccupiedGrid.Num();
+	int32 GridColumns = OccupiedGrid[0].Num();
+
+	for (int32 Y = 0; Y < GridRows; ++Y)
+	{
+		for (int32 X = 0; X < GridColumns; ++X)
+		{
+			if(IsSpaceAvailable(OccupiedGrid, X, Y, ItemDimensions))
+			{
+				return FIntPoint(X, Y);
+			}
+		}
+	}
+	return FIntPoint(-1, -1);
+}
+
+bool UInventoryWidget::IsSpaceAvailable(const TArray<TArray<bool>>& OccupiedGrid, int32 StartX, int32 StartY,
+	const FIntPoint& ItemDimesions)
+{
+	int32 GridRows = OccupiedGrid.Num();
+	int32 GridColumns = OccupiedGrid[0].Num();
+
+	for (int32 Y = StartY; Y < StartY + ItemDimesions.Y; ++Y)
+	{
+		for (int32 X = StartX; X < StartX + ItemDimesions.X; ++X)
+		{
+			if(Y >= GridRows || X >= GridColumns || OccupiedGrid[Y][X])
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+void UInventoryWidget::UpdateSlotMap()
+{
+	ItemToSlotMap.Empty();
+
+	for (UWidget* Child : GridCanvasPanel->GetAllChildren())
+	{
+		UInventoryItemSlot* ItemSlot = Cast<UInventoryItemSlot>(Child);
+		if(ItemSlot && ItemSlot->GetItemReference())
+		{
+			ItemToSlotMap.Add(ItemSlot->GetItemReference(), ItemSlot);
+		}
 	}
 }
 
@@ -196,6 +267,60 @@ int32 UInventoryWidget::NativePaint(const FPaintArgs& Args, const FGeometry& All
 	return LayerId;
 }
 
+bool UInventoryWidget::CanPlaceItemAt(UItemBase* Item, const FVector2D& DropPosition)
+{
+	if (!Item || !InventoryComponentRef) return false;
+
+	FIntPoint GridPosition(FMath::FloorToInt(DropPosition.X / TileSize), FMath::FloorToInt(DropPosition.Y / TileSize));
+	FIntPoint ItemDimensions = Item->GetItemDimensions();
+
+	for (int32 Y = GridPosition.Y; Y < GridPosition.Y + ItemDimensions.Y; ++ Y)
+	{
+		for (int32 X = GridPosition.X; X < GridPosition.X + ItemDimensions.X; ++X)
+		{
+			if(X < 0 || Y < 0 || X >= InventoryComponentRef->GetGridColumns() || Y >= InventoryComponentRef->GetGridRows())
+			{
+				return false;
+			}
+
+			// checks if the tile is occupied by another item
+			for (const auto& Pair : ItemToSlotMap)
+			{
+				UItemBase* OtherItem = Pair.Key;
+				UInventoryItemSlot* OtherItemSlot = Pair.Value;
+
+				if(OtherItem == Item) continue;
+
+				UCanvasPanelSlot* OtherCanvasPanelSlot = Cast<UCanvasPanelSlot>(OtherItemSlot->Slot);
+				if(OtherCanvasPanelSlot)
+				{
+					FVector2D OtherPosition = OtherCanvasPanelSlot->GetPosition();
+					FIntPoint OtherGridPosition(FMath::FloorToInt(OtherPosition.X / TileSize), FMath::FloorToInt(OtherPosition.Y / TileSize));
+					FIntPoint OtherDimesions = OtherItem->GetItemDimensions();
+
+					if(X >= OtherGridPosition.X && X < OtherGridPosition.X + OtherDimesions.X &&
+						Y >= OtherGridPosition.Y && Y < OtherGridPosition.Y + OtherDimesions.Y)
+					{
+						return false;
+					}
+				}
+			}
+		}
+	}
+	return true;
+}
+
+void UInventoryWidget::UpdateItemPosition(UInventoryItemSlot* ItemSlot, const FVector2D& NewPosition)
+{
+	if(!ItemSlot) return;
+
+	UCanvasPanelSlot* CanvasPanelSlot = Cast<UCanvasPanelSlot>(ItemSlot->Slot);
+	if(CanvasPanelSlot)
+	{
+		CanvasPanelSlot->SetPosition(NewPosition);
+	}
+}
+
 void UInventoryWidget::SetInfoText() const
 {
 	// doing this to have the float value for the slots
@@ -211,5 +336,3 @@ void UInventoryWidget::SetInfoText() const
 	TXT_CapacityInfo->SetText(FText::FromString(CapacityInfoValue));
 
 }
-
-

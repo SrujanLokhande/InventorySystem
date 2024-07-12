@@ -34,7 +34,7 @@ void APickup::InitializePickup(const TSubclassOf<UItemBase> BaseClass, int32 Ite
 		ItemReference->ItemRarity = ItemDataRow->ItemRarity;
 		ItemReference->NumericData = ItemDataRow->NumericData;
 		ItemReference->TextData = ItemDataRow->TextData;
-		ItemReference->AssetData = ItemDataRow->AssetData;
+		ItemReference->AssetData = ItemDataRow->AssetData;		
 		
 		ItemQuantity <=0 ? ItemReference->SetItemQuantity(1) : ItemReference->SetItemQuantity(ItemQuantity);
 

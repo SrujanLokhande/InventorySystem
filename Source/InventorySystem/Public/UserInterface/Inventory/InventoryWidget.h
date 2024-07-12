@@ -3,10 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ItemDragDropOperation.h"
 #include "Blueprint/UserWidget.h"
 #include "InventorySystem/DataStructure/DS_Line.h"
 #include "InventoryWidget.generated.h"
 
+
+class UItemBase;
 class UCanvasPanel;
 class UGridPanel;
 class UBorder;
@@ -31,13 +34,14 @@ public:
 
 	// to make the grid lines of the widget
 	UFUNCTION()
-	void InitializeGrid(float InTileSize);	
+	void InitializeGrid(float InTileSize);
+	UInventoryItemSlot* GetItemSlotForItem(UItemBase* ItemBase);
 
 	// UPROPERTY(meta=(BindWidget))
 	// UWrapBox* InventoryWrapBox;
 
 	// UPROPERTY(meta=(BindWidget))
-	// UGridPanel* InventoryGridPanel;
+	 //UGridPanel* InventoryGridPanel;	
 
 	// Canvas panel to display the inventory grid
 	UPROPERTY(meta=(BindWidget))
@@ -63,6 +67,13 @@ public:
 	TSubclassOf<UInventoryItemSlot> InventorySlotClass;
 
 	virtual int32 NativePaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const override;
+
+	bool CanPlaceItemAt(UItemBase* Item, const FVector2D& DropPosition);
+	void UpdateItemPosition(UInventoryItemSlot* ItemSlot, const FVector2D& NewPosition);
+
+	UFUNCTION(Category = "Inventory Grid")
+	FORCEINLINE double GetTileSize() const {return TileSize;} 
+	
 protected:
 
 	UPROPERTY()
@@ -87,5 +98,14 @@ protected:
 	UFUNCTION()
 	void SetGridBorderSize();
 	
+	//FVector2D FindNextAvailablePosition(UItemBase* Item);
+	FIntPoint FindNextAvailablePosition(const TArray<TArray<bool>>& OccupiedGrid,
+	const FIntPoint& ItemDimensions);
+	static bool IsSpaceAvailable(const TArray<TArray<bool>>& OccupiedGrid, int32 StartX, int32 StartY, const FIntPoint& ItemDimesions);
+
+private:
+	TMap<UItemBase*, UInventoryItemSlot*> ItemToSlotMap;
+	void UpdateSlotMap();
+	void EnsureGridFitsCanvas();
 
 };
