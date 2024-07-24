@@ -121,7 +121,7 @@ void UInventoryItemSlot::NativeOnDragDetected(const FGeometry& InGeometry, const
 		DragItemOperation->DefaultDragVisual = DragVisual;
 
 		// to tell where to snap the cursor with the item visual
-		DragItemOperation->Pivot = EDragPivot::TopLeft;
+		DragItemOperation->Pivot = EDragPivot::CenterCenter;
 
 		OutOperation = DragItemOperation;
 	}
@@ -136,5 +136,9 @@ FVector2D UInventoryItemSlot::CalculateDragVisualSize() const
 	}
 	return FVector2D::ZeroVector;
 }
+
+
+
+
 
 

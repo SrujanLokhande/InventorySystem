@@ -1,9 +1,6 @@
 // Copyright Srujan Lokhande @2024
 
 #include "Components/InventoryComponent.h"
-
-#include "InterchangeResult.h"
-#include "InventorySystem/DataStructure/DS_Tile.h"
 #include "InventorySystem/DataStructure/InventoryGridDataStruct.h"
 #include "Items/ItemBase.h"
 
@@ -300,11 +297,11 @@ void UInventoryComponent::AddNewItem(UItemBase* Item, const int32 AmountToAdd)
 	NewItem->ItemQuantity = AmountToAdd;
 
 	// for the grid inventory, not the inventory array
-	//TryAddItem(NewItem);
+	TryAddItem(NewItem);
 	
-	InventoryContents.Add(NewItem);
-	InventoryTotalWeight += NewItem->GetItemStackWeight();	
-	OnInventoryUpdated.Broadcast();
+	// InventoryContents.Add(NewItem);
+	// InventoryTotalWeight += NewItem->GetItemStackWeight();	
+	// OnInventoryUpdated.Broadcast();
 
 }
 
@@ -325,4 +322,40 @@ void UInventoryComponent::InitializeGridData()
 		GridRows = InventoryGridData->GridSizeData.GridRows;
 		GridTileSize = InventoryGridData->GridSizeData.GridTileSize;
 	}
+}
+
+// Checks if there is space available for the new item in the existing item stack
+// and if available adds the item to the specified index
+bool UInventoryComponent::TryAddItem(UItemBase* InItem)
+{
+	if(!InItem)	return false;
+
+	TArray<UItemBase*> Items = InventoryContents;
+	
+	// Iterate over the items to check if there's room for the new item
+	for (int32 Index = 0; Index < Items.Num(); ++Index)
+	{
+		UItemBase* Item = Items[Index];
+		if (bIsRoomAvailable(Item, InItem, Index))
+		{
+			AddItemAt(InItem, Index);
+			return true;
+		}
+	}
+
+	return false;
+}
+
+// returns if there is room available at a specified index and its corresponding tile 
+bool UInventoryComponent::bIsRoomAvailable(UItemBase* ExistingItem, UItemBase* NewItem, int32 TopLeftIndex)
+{
+	return true;
+}
+
+// actually adds the item at the specified index translated from the tile 
+void UInventoryComponent::AddItemAt(UItemBase* InItem, int32 Index)
+{
+	InventoryContents.Add(InItem);
+	InventoryTotalWeight += InItem->GetItemStackWeight();	
+	OnInventoryUpdated.Broadcast();
 }

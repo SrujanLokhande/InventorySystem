@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Items/ItemBase.h"
 #include "InventoryComponent.generated.h"
 
 struct FTile;
@@ -69,6 +70,23 @@ struct FItemAddResult
 		AddedAllResult.ResultMessage = Message;
 		return AddedAllResult;
 	}
+};
+
+USTRUCT(BlueprintType)
+struct FItemWithPosition
+{
+	GENERATED_BODY()
+
+	UPROPERTY()
+	UItemBase* Item;
+
+	UPROPERTY()
+	FIntPoint ItemPositionInGrid;
+
+	// constructor
+	FItemWithPosition() : Item(nullptr), ItemPositionInGrid(FIntPoint(-1,-1)) {}
+	
+	FItemWithPosition(UItemBase* InItem, FIntPoint PositionInGrid) : Item(InItem), ItemPositionInGrid(PositionInGrid);
 };
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -201,5 +219,14 @@ protected:
 
 	// Take the Grid DataValues from the DataTable
 	void InitializeGridData();
+
+	UFUNCTION(Category = "Grid Inventory")
+	bool TryAddItem(UItemBase* InItem);
+
+	UFUNCTION(Category = "Grid Inventory")
+	bool bIsRoomAvailable(UItemBase* ExistingItem, UItemBase* NewItem, int32 TopLeftIndex);
+
+	UFUNCTION(Category = "Grid Inventory")
+	void AddItemAt(UItemBase* InItem, int32 Index);
 	
 };

@@ -36,7 +36,7 @@ bool UInventoryWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDrop
 	const UItemDragDropOperation* ItemDragDrop = Cast<UItemDragDropOperation>(InOperation);
 
 	// detecting if the drop operation is happening on the same panel i.e. on the inventory panel
-	if(ItemDragDrop && ItemDragDrop->SourceItem)
+	if(ItemDragDrop->SourceInventory && InventoryComponentRef)		
 	{
 		FVector2D DropPosition = InGeometry.AbsoluteToLocal(InDragDropEvent.GetScreenSpacePosition());
 		if(CanPlaceItemAt(ItemDragDrop->SourceItem, DropPosition))
@@ -54,7 +54,8 @@ bool UInventoryWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDrop
 				// if it is, then we return true which will prevent to drop the item on the panel
 				return true;				
 			}			
-		}		
+		}
+		return true;
 	}
 	return false;
 }

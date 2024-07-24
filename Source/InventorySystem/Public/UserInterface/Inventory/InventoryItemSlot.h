@@ -63,7 +63,6 @@ protected:
 
 	UFUNCTION()
 	FVector2D CalculateDragVisualSize() const;
-
 };
 
 
