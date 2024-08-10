@@ -1,6 +1,8 @@
 // Copyright Srujan Lokhande @2024
 
 #include "Components/InventoryComponent.h"
+
+#include "InventorySystem/DataStructure/DS_Tile.h"
 #include "InventorySystem/DataStructure/InventoryGridDataStruct.h"
 #include "Items/ItemBase.h"
 
@@ -14,6 +16,34 @@ void UInventoryComponent::BeginPlay()
 	Super::BeginPlay();
 
 	InitializeGridData();
+	InitializeInventoryArray();	
+}
+
+void UInventoryComponent::InitializeGridData()
+{
+	if(!GridDataTable)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Grid Data Table Not set"));
+		return;
+	}
+
+	static const FString Context("Inventory Grid Data Table");
+	FGridData* InventoryGridData = GridDataTable->FindRow<FGridData>(FName(TEXT("GridData")), Context);
+
+	if(InventoryGridData)
+	{
+		GridColumns = InventoryGridData->GridSizeData.GridColumns;
+		GridRows = InventoryGridData->GridSizeData.GridRows;
+		GridTileSize = InventoryGridData->GridSizeData.GridTileSize;
+	}
+}
+
+void UInventoryComponent::InitializeInventoryArray()
+{
+	int32 ArraySize = GridColumns * GridRows;
+	UE_LOG(LogTemp, Warning, TEXT("Initializing InventoryContents. GridColumns: %d, GridRows: %d, ArraySize: %d"), GridColumns, GridRows, ArraySize);
+	InventoryContents.SetNum(ArraySize);
+	UE_LOG(LogTemp, Warning, TEXT("InventoryContents size: %d"), InventoryContents.Num());
 }
 
 // this functions just checks if the current item pointer is already in the array or not
@@ -54,12 +84,15 @@ UItemBase* UInventoryComponent::FindNextPartialStack(UItemBase* ItemIn) const
 		(const UItemBase* InventoryItem)
 		{
 			return InventoryItem->ID == ItemIn->ID && !InventoryItem->IsItemFullStack();
+		
 		}
 	))
 	{
 		return *Result;
 	}
 	return nullptr;
+
+	
 }
 
 int32 UInventoryComponent::CalculateWeightAddAmount(UItemBase* ItemIn, int32 RequestedAddAmount)
@@ -283,79 +316,230 @@ void UInventoryComponent::AddNewItem(UItemBase* Item, const int32 AmountToAdd)
 
 	// if the item is from the world, or is already a copy
 	if(Item->bIsCopy || Item->bIsPickup)
-	{
+	{		
 		NewItem = Item;
 		NewItem->ResetItemFlags();
 	}
 	// if the item is inside the inventory and we want to split it
 	// the item is not from the world, but from somewhere else
 	else
-	{
+	{		
 		NewItem = Item->CreateItemCopy();
 	}
 	NewItem->OwningInventory = this;
-	NewItem->ItemQuantity = AmountToAdd;
+	NewItem->ItemQuantity = AmountToAdd;	
+
 
 	// for the grid inventory, not the inventory array
-	TryAddItem(NewItem);
+	if(TryAddItem(NewItem))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("Try Add Item is Succesffull"));
+		InventoryTotalWeight += NewItem->GetItemStackWeight();	
+		OnInventoryUpdated.Broadcast();		
+	}
+	GEngine->AddOnScreenDebugMessage(-2, 5, FColor::Red, TEXT("Try Add Item is not Succesffull"));
 	
 	// InventoryContents.Add(NewItem);
-	// InventoryTotalWeight += NewItem->GetItemStackWeight();	
-	// OnInventoryUpdated.Broadcast();
 
-}
-
-void UInventoryComponent::InitializeGridData()
-{
-	if(!GridDataTable)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Grid Data Table Not set"));
-		return;
-	}
-
-	static const FString Context("Inventory Grid Data Table");
-	FGridData* InventoryGridData = GridDataTable->FindRow<FGridData>(FName(TEXT("GridData")), Context);
-
-	if(InventoryGridData)
-	{
-		GridColumns = InventoryGridData->GridSizeData.GridColumns;
-		GridRows = InventoryGridData->GridSizeData.GridRows;
-		GridTileSize = InventoryGridData->GridSizeData.GridTileSize;
-	}
 }
 
 // Checks if there is space available for the new item in the existing item stack
 // and if available adds the item to the specified index
 bool UInventoryComponent::TryAddItem(UItemBase* InItem)
 {
-	if(!InItem)	return false;
-
-	TArray<UItemBase*> Items = InventoryContents;
-	
-	// Iterate over the items to check if there's room for the new item
-	for (int32 Index = 0; Index < Items.Num(); ++Index)
+	if (!IsValid(InItem))
 	{
-		UItemBase* Item = Items[Index];
-		if (bIsRoomAvailable(Item, InItem, Index))
+		GEngine->AddOnScreenDebugMessage(-3, 5, FColor::Red, TEXT("Try Add Item Item is NotValid"));
+		return false;
+	}
+	GEngine->AddOnScreenDebugMessage(-20, 5, FColor::Red, TEXT("Passed the valid check"));
+
+	for (int32 i = 0; i <= InventoryContents.Num(); ++i)
+	{
+		if (bIsRoomAvailable(InItem, i))
 		{
-			AddItemAt(InItem, Index);
+			AddItemAt(InItem, i);
+			GEngine->AddOnScreenDebugMessage(-4, 5, FColor::Red, TEXT("Try Add Item inside the actual function is running"));
 			return true;
 		}
 	}
 
-	return false;
+	return false;	
 }
 
+
 // returns if there is room available at a specified index and its corresponding tile 
-bool UInventoryComponent::bIsRoomAvailable(UItemBase* ExistingItem, UItemBase* NewItem, int32 TopLeftIndex)
+bool UInventoryComponent::bIsRoomAvailable(UItemBase* ItemObject, int32 TopLeftIndex)
 {
-	return true;
+	bool Result = true;
+
+	ForEachIndex(ItemObject, TopLeftIndex, [this, &Result](const FTile& Tile) {
+		if (!IsTileValid(Tile))
+		{
+			GEngine->AddOnScreenDebugMessage(-5, 5, FColor::Red, TEXT("bRoomAvailable Tile is not valid"));
+			Result = false;
+			return;
+		}
+
+		int32 Index = TileToIndex(Tile);
+		
+		bool Valid;
+		UItemBase* ExistingItem;
+		GetItemAtIndex(Index, Valid, ExistingItem);
+
+		if (Valid && ExistingItem)
+		{
+			GEngine->AddOnScreenDebugMessage(-6, 5, FColor::Red, TEXT("bRoomAvailable, either not valid or already an item is there"));
+			Result = false;
+		}
+	});
+
+	return Result;
 }
 
 // actually adds the item at the specified index translated from the tile 
-void UInventoryComponent::AddItemAt(UItemBase* InItem, int32 Index)
+void UInventoryComponent::AddItemAt(UItemBase* ItemObject, int32 TopLeftIndex)
 {
-	InventoryContents.Add(InItem);
-	InventoryTotalWeight += InItem->GetItemStackWeight();	
-	OnInventoryUpdated.Broadcast();
+	//InventoryContents.Add(InItem);	
+	// InventoryTotalWeight += InItem->GetItemStackWeight();	
+	// OnInventoryUpdated.Broadcast();
+
+	// if (!ItemObject) return;
+	// GEngine->AddOnScreenDebugMessage(-7, 5, FColor::Red, TEXT("Inside Add Item At"));
+	//
+	// ForEachIndex(ItemObject, TopLeftIndex, [this, ItemObject](const FTile& Tile)
+	// {
+	// 	int32 Index = TileToIndex(Tile);
+	//
+	// 	InventoryContents[Index] = ItemObject;
+	// });
+	//
+	// bIsDirty = true;
+
+	if (!ItemObject)
+	{
+		UE_LOG(LogTemp, Error, TEXT("AddItemAt: ItemObject is null"));
+		return;
+	}
+    
+	UE_LOG(LogTemp, Warning, TEXT("AddItemAt: Starting to add item at TopLeftIndex: %d"), TopLeftIndex);
+	UE_LOG(LogTemp, Warning, TEXT("Current InventoryContents size: %d"), InventoryContents.Num());
+	UE_LOG(LogTemp, Warning, TEXT("GridColumns: %d, GridRows: %d"), GridColumns, GridRows);
+
+	FIntPoint ItemDimensions = ItemObject->GetItemDimensions();
+	UE_LOG(LogTemp, Warning, TEXT("Item Dimensions: %s"), *ItemDimensions.ToString());
+
+	FTile TopLeftTile = IndexToTile(TopLeftIndex);
+	UE_LOG(LogTemp, Warning, TEXT("TopLeftTile: X=%d, Y=%d"), TopLeftTile.X, TopLeftTile.Y);
+
+	// Check if the item fits within the inventory bounds
+	if (TopLeftTile.X + ItemDimensions.X > GridColumns || TopLeftTile.Y + ItemDimensions.Y > GridRows)
+	{
+		UE_LOG(LogTemp, Error, TEXT("AddItemAt: Item does not fit in inventory at specified position"));
+		return;
+	}
+
+	// Use the ForEachIndex function
+	ForEachIndex(ItemObject, TopLeftIndex, [this, ItemObject](const FTile& Tile) {
+		int32 Index = TileToIndex(Tile);
+        
+		UE_LOG(LogTemp, Warning, TEXT("Processing Tile: X=%d, Y=%d, Calculated Index: %d"), Tile.X, Tile.Y, Index);
+
+		// Add bounds check
+		if (Index >= 0 && Index < InventoryContents.Num())
+		{
+			InventoryContents[Index] = ItemObject;
+			UE_LOG(LogTemp, Warning, TEXT("Successfully added item at index: %d"), Index);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("AddItemAt: Index out of bounds. Index: %d, Array Size: %d"), Index, InventoryContents.Num());
+		}
+	});
+
+	// Set IsDirty to true after the loop
+	bIsDirty = true;
+}
+
+FTile UInventoryComponent::IndexToTile(int32 Index) const
+{
+	if (GridColumns <= 0)
+	{
+		// Handle error case, perhaps log a warning
+		UE_LOG(LogTemp, Warning, TEXT("Grid Columns very small in the IndexToTile Function"));
+		return FTile(0, 0);
+	}
+
+	FTile Tile;
+	Tile.X = Index % GridColumns;
+	Tile.Y = Index / GridColumns;
+
+	return Tile;
+}
+
+int32 UInventoryComponent::TileToIndex(const FTile& Tile) const
+{	
+	UE_LOG(LogTemp, Warning, TEXT("TileToIndex: Input Tile: X=%d, Y=%d"), Tile.X, Tile.Y);
+    
+	if (Tile.X < 0 || Tile.X >= GridColumns || Tile.Y < 0 || Tile.Y >= GridRows)
+	{
+		UE_LOG(LogTemp, Error, TEXT("TileToIndex: Tile out of bounds. Tile: (%d, %d), Grid: %d x %d"), Tile.X, Tile.Y, GridColumns, GridRows);
+		return INDEX_NONE;
+	}
+    
+	int32 Index = Tile.X + (Tile.Y * GridColumns);
+	UE_LOG(LogTemp, Warning, TEXT("TileToIndex: Calculated Index: %d"), Index);
+	return Index;
+}
+
+void UInventoryComponent::ForEachIndex(UItemBase* ItemObject, int32 TopLeftIndex,
+                                       TFunction<void(const FTile&)> LoopBody)
+{	
+	if(!ItemObject) return;
+	GEngine->AddOnScreenDebugMessage(-10, 5, FColor::Red, TEXT("Inside foreachindex"));
+
+	FIntPoint ItemDimensions = ItemObject->GetItemDimensions();
+	FTile TopLeftTile = IndexToTile(TopLeftIndex);
+
+	int32 LastIndexX = TopLeftTile.X + (ItemDimensions.X - 1);
+	int32 LastIndexY = TopLeftTile.Y + (ItemDimensions.Y - 1);
+
+	for (int32 X = TopLeftTile.X; X <= LastIndexX; ++X)
+	{
+		for (int32 Y = TopLeftTile.Y; Y <= LastIndexY; ++Y)
+		{
+			FTile CurrentTile{X, Y};
+
+			// this is the lambda function that takes the tile and iterated over the loop again
+			// For each tile the item would occupy, it creates an FTile struct.
+			// It then calls the LoopBody lambda function, passing the CurrentTile as an argument.
+			LoopBody(CurrentTile);
+			GEngine->AddOnScreenDebugMessage(-11, 5, FColor::Red, TEXT("Inside foreach looping through the body"));
+		}
+	}
+}
+
+bool UInventoryComponent::IsTileValid(const FTile& Tile) const
+{
+	bool bIsXValid = (Tile.X >= 0) && (Tile.X < GridColumns);
+	bool bIsYValid = (Tile.Y >= 0) && (Tile.Y < GridRows);
+
+	return bIsXValid && bIsYValid;
+}
+
+void UInventoryComponent::GetItemAtIndex(int32 Index, bool& Valid, UItemBase*& ItemObject)
+{
+	GEngine->AddOnScreenDebugMessage(-12, 5, FColor::Red, TEXT("Inside GetItemATIndex"));
+	if(InventoryContents.IsValidIndex(Index))
+	{
+		GEngine->AddOnScreenDebugMessage(-13, 5, FColor::Red, TEXT("Index is valid"));
+		Valid = true;
+		ItemObject = InventoryContents[Index];
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-14, 5, FColor::Red, TEXT("Index is not valid"));
+		Valid = false;
+		ItemObject = nullptr;
+	}
 }

@@ -86,7 +86,7 @@ struct FItemWithPosition
 	// constructor
 	FItemWithPosition() : Item(nullptr), ItemPositionInGrid(FIntPoint(-1,-1)) {}
 	
-	FItemWithPosition(UItemBase* InItem, FIntPoint PositionInGrid) : Item(InItem), ItemPositionInGrid(PositionInGrid);
+	FItemWithPosition(UItemBase* InItem, FIntPoint PositionInGrid) : Item(InItem), ItemPositionInGrid(PositionInGrid){}
 };
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -161,7 +161,35 @@ public:
 	FORCEINLINE int32 GetGridRows() const { return GridRows; }
 
 	UFUNCTION(Category = "InventoryGrid")
-	FORCEINLINE float GetGridTileSize() const { return GridTileSize; }	
+	FORCEINLINE float GetGridTileSize() const { return GridTileSize; }
+
+	// To find a suitable spot in the array and try adding items to that index
+	UFUNCTION(Category = "Grid Inventory")
+	bool TryAddItem(UItemBase* InItem);
+
+	// checks if there is room available for the item
+	UFUNCTION(Category = "Grid Inventory")
+	bool bIsRoomAvailable(UItemBase* ItemObject, int32 TopLeftIndex);
+
+	// to actually add item in the array
+	UFUNCTION(BlueprintCallable, Category = "Grid Inventory")
+	void AddItemAt(UItemBase* ItemObject, int32 TopLeftIndex);
+
+	// convert the array index to an inventory tile	
+	FTile IndexToTile(int32 Index) const;
+
+	// converts the inventory tile to an array index
+	int32 TileToIndex(const FTile& Tile) const;
+	
+	// iterates over all the indexes in the array
+	void ForEachIndex(UItemBase* ItemObject, int32 TopLeftIndex, TFunction<void (const FTile&)> LoopBody);
+
+	// checks if the Tile at the specified index is Valid or not
+	bool IsTileValid(const FTile& Tile) const;
+
+	// checks if there is any item already present at the array index
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void GetItemAtIndex(int32 Index, bool& Valid, UItemBase*& ItemObject);
 
 protected:
 
@@ -194,7 +222,7 @@ protected:
 	UDataTable* GridDataTable;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Grid | Inventory")
-	bool IsDirty = false;
+	bool bIsDirty = false;
 	
 	//=============================================================================
 	// FUNCTIONS
@@ -219,14 +247,8 @@ protected:
 
 	// Take the Grid DataValues from the DataTable
 	void InitializeGridData();
-
-	UFUNCTION(Category = "Grid Inventory")
-	bool TryAddItem(UItemBase* InItem);
-
-	UFUNCTION(Category = "Grid Inventory")
-	bool bIsRoomAvailable(UItemBase* ExistingItem, UItemBase* NewItem, int32 TopLeftIndex);
-
-	UFUNCTION(Category = "Grid Inventory")
-	void AddItemAt(UItemBase* InItem, int32 Index);
+	
+	// Take the Grid DataValues from the DataTable
+	void InitializeInventoryArray();
 	
 };

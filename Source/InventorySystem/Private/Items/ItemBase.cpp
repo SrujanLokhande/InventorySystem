@@ -15,6 +15,7 @@ void UItemBase::ResetItemFlags()
 	bIsPickup = false;
 }
 
+
 UItemBase* UItemBase::CreateItemCopy() const
 {
 	// creating a new copy

@@ -63,6 +63,8 @@ public:
 	// making it forceinline creates a copy of this function wherever it is called to reduce function calling times and optimizing
 	// Returns the the weight of the whole stack of items
 	UFUNCTION(Category = "Item")
+
+
 	FORCEINLINE float GetItemStackWeight() const { return ItemQuantity * NumericData.ItemWeight ; }
 
 	// returns the weight of individual items
@@ -75,7 +77,10 @@ public:
 
 	// returns the dimensions of the inventory object icon
 	UFUNCTION(Category = "Item")
-	FORCEINLINE FIntPoint GetItemDimensions() const { return AssetData.ItemDimensions; }
+	FORCEINLINE FIntPoint GetItemDimensions() const
+	{
+		return FIntPoint{2,2};
+	}
 
 	// Setter for the item quantity
 	UFUNCTION(Category = "Item")
