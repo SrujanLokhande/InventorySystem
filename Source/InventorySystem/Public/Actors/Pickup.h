@@ -6,10 +6,13 @@
 #include "Interfaces/InteractionInterface.h"
 #include "Pickup.generated.h"
 
+struct FItemData;
 struct FInteractableData;
 class UItemBase;
 class UDataTable;
 class UStaticMeshComponent;
+class USkeletalMeshComponent;
+class USceneComponent;
 
 UCLASS()
 class INVENTORYSYSTEM_API APickup : public AActor, public IInteractionInterface
@@ -34,11 +37,11 @@ public:
 	virtual void EndFocus() override;
 
 protected:
-
+	
 	UPROPERTY(VisibleAnywhere, Category = "Pickup | Components")
-	UStaticMeshComponent* PickupStaticMesh;
+	UStaticMeshComponent* PickupStaticMesh;	
 
-	// The data table with all of the info we give to a specific actor
+	// The data table with all the info we give to a specific actor
 	UPROPERTY(EditInstanceOnly, Category = "Pickup | Item Database")
 	UDataTable* ItemDataTable;
 
@@ -60,7 +63,7 @@ protected:
 	virtual void Interact(AInventorySystemCharacter* PlayerCharacter) override;
 	void UpdateInteractableData();
 	void TakePickup(const AInventorySystemCharacter* PickupTaker);
-
+	
 #if WITH_EDITOR
 	// to change the mesh of the placed objects and not be needing to explicitly go and change the mesh and the item_id for
 	// all of the item instances inside editor

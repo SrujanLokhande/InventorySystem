@@ -32,13 +32,18 @@ void UInventoryTooltip::NativeConstruct()
 		{
 		case EItemType::Potions:
 			TXT_Itemtype->SetText(FText::FromString("Potions"));
-			TXT_DamageValue->SetVisibility(ESlateVisibility::Collapsed);		
+			TXT_DamageValue->SetVisibility(ESlateVisibility::Collapsed);			
 			break;
 		case EItemType::Herbs:
+			TXT_Itemtype->SetText(FText::FromString("Herbs"));
+			TXT_DamageValue->SetVisibility(ESlateVisibility::Collapsed);	
 			break;
 		case EItemType::Weapons:
+			TXT_Itemtype->SetText(FText::FromString("Weapons"));
 			break;
 		case EItemType::QuestItems:
+			TXT_Itemtype->SetText(FText::FromString("QuestItems"));
+			TXT_DamageValue->SetVisibility(ESlateVisibility::Collapsed);
 			break;
 		case EItemType::Mundane:
 			TXT_Itemtype->SetText(FText::FromString("Mundane Item"));

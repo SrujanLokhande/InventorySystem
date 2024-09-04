@@ -3,12 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/InventoryComponent.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "Interfaces/InteractionInterface.h"
 #include "InventorySystemCharacter.generated.h"
 
 
+class ATablet;
+class UWidgetInteractionComponent;
 class UItemBase;
 class UInventoryComponent;
 class AInventorySystemHUD;
@@ -54,8 +57,12 @@ public:
 	
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+	
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	UFUNCTION(BlueprintCallable, Category = "Tablet Animation")
+	FORCEINLINE bool GetIsTabletVisible() const { return bIsTabletVisible; }
 	
 	AInventorySystemCharacter();
 	FORCEINLINE bool IsInteracting() const { return GetWorldTimerManager().IsTimerActive(TimerHandleInteraction); }
@@ -82,6 +89,10 @@ protected:
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
+
+	/** Tablet camera */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	UCameraComponent* TabletCamera;
 	
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -107,6 +118,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* ToggleMenuAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UWidgetInteractionComponent* WidgetInteractionComponent;
+
 	// This TScriptInterface is a Unreal Interface that lets us implement all functionalitites for the UObject that implements an interface
 	// TargetInteractable is the UObject that we are currently interacting with
 	UPROPERTY(VisibleAnywhere, Category = "Character | Interaction")
@@ -115,13 +129,21 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Character | Inventory")
 	UInventoryComponent* PlayerInventory;
 
+	UPROPERTY(VisibleAnywhere, Category = "Character | Tablet")
+	ATablet* CurrentTablet;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character | Tablet")
+	TSubclassOf<ATablet> TabletClass;
+	
 	float InteractionCheckFrequency;
 
 	float InteractionCheckDistance;
 
 	FTimerHandle TimerHandleInteraction;
 
-	FInteractionData InteractionData;	
+	FInteractionData InteractionData;
+
+	bool bIsTabletVisible = false;	
 
 	//=============================================================================
 	// FUNCTIONS
@@ -139,6 +161,8 @@ protected:
 	void EndInteract();
 	void Interact();
 	void ToggleMenu();
+	void ShowTablet();
+	void HideTablet();
 
 	virtual void Tick(float DeltaSeconds) override;
 

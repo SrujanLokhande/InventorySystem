@@ -26,9 +26,7 @@ public:
 
 	FORCEINLINE void SetItemReference(UItemBase* ItemIn) { ItemReference = ItemIn; }
 	FORCEINLINE UItemBase* GetItemReference() const { return ItemReference; }
-	FORCEINLINE int32 GetItemHeight() const { return ItemReference->NumericData.ItemHeight; }
-	FORCEINLINE int32 GetItemWidth() const { return ItemReference->NumericData.ItemWidth; }
-
+	
 protected:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory Slot")

@@ -12,7 +12,9 @@
 #include "InputActionValue.h"
 #include "DrawDebugHelpers.h"
 #include "Actors/Pickup.h"
+#include "Actors/Tablet.h"
 #include "Components/InventoryComponent.h"
+#include "Components/WidgetInteractionComponent.h"
 #include "UserInterface/InventorySystemHUD.h"
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -49,6 +51,15 @@ AInventorySystemCharacter::AInventorySystemCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+
+	TabletCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("TabletCamera"));
+	TabletCamera->SetupAttachment(GetMesh(), FName("head")); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
+	TabletCamera->bUsePawnControlRotation = false;
+
+	WidgetInteractionComponent = CreateDefaultSubobject<UWidgetInteractionComponent>("Tablet Widget");	
+	WidgetInteractionComponent->VirtualUserIndex = 1;
+	WidgetInteractionComponent->InteractionSource = EWidgetInteractionSource::Mouse;
+	WidgetInteractionComponent->bEnableHitTesting = true;
 
 	PlayerInventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("Player Inventory"));
 	PlayerInventory->SetSlotsCapacity(40);
@@ -301,6 +312,56 @@ void AInventorySystemCharacter::UpdateInteractionWidget() const
 void AInventorySystemCharacter::ToggleMenu() 
 {
 	HUDRef->ToggleMenu();
+	if(bIsTabletVisible)
+	{
+		HideTablet();
+	}
+	else
+	{
+		ShowTablet();
+	}
+	APlayerController* PlayerController = Cast<APlayerController>(GetController());
+	PlayerController->SetViewTargetWithBlend(this, 1.0f);
+}
+
+void AInventorySystemCharacter::ShowTablet()
+{
+	bIsTabletVisible = true;
+	if(!CurrentTablet && TabletClass)
+	{
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		SpawnParams.bNoFail = true;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+		// tablet spawn transform and location
+		FTransform SpawnTransform = GetMesh()->GetSocketTransform("TabletSocket");
+		CurrentTablet = GetWorld()->SpawnActor<ATablet>(TabletClass, SpawnTransform, SpawnParams);
+		CurrentTablet->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, FName("TabletSocket"));		
+	}
+	if(CurrentTablet)
+	{
+		CurrentTablet->SetActorHiddenInGame(false);
+		TabletCamera->SetActive(true);
+		FollowCamera->SetActive(false);
+
+		if(UInventoryComponent* InventoryComponent = GetInventory())
+		{
+			InventoryComponent->OnInventoryUpdated.Broadcast();
+		}
+	}
+	
+}
+
+void AInventorySystemCharacter::HideTablet()
+{
+	bIsTabletVisible = false;
+	if(CurrentTablet)
+	{
+		CurrentTablet->SetActorHiddenInGame(true);
+		TabletCamera->SetActive(false);
+		FollowCamera->SetActive(true);
+	}
 }
 
 void AInventorySystemCharacter::DropItem(UItemBase* ItemToDrop, const int32 QuantityToDrop)

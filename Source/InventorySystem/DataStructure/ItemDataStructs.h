@@ -78,12 +78,6 @@ struct FItemNumericData
 
 	UPROPERTY(EditAnywhere)
 	bool bIsStackable;
-
-	UPROPERTY(EditAnywhere)
-	int32 ItemHeight;
-
-	UPROPERTY(EditAnywhere)
-	int32 ItemWidth;
 };
 
 
@@ -97,8 +91,7 @@ struct FItemAssetData
 	UTexture2D* Icon;
 
 	UPROPERTY(EditAnywhere)
-	UStaticMesh* ItemMesh;
-	
+	UStaticMesh* ItemMesh;	
 };
 
 // FTableRow - base class for data tables 

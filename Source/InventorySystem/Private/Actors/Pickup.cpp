@@ -9,7 +9,7 @@ APickup::APickup()
 	PrimaryActorTick.bCanEverTick = false;
 
 	PickupStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("PickUp Actor Mesh");
-	PickupStaticMesh->SetSimulatePhysics(true);
+	PickupStaticMesh->SetSimulatePhysics(false);
 	SetRootComponent(PickupStaticMesh);
 }
 
@@ -149,5 +149,3 @@ void APickup::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent
 		}
 	}
 }
-
-

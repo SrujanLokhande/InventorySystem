@@ -23,6 +23,10 @@ void UInventoryWidget::NativeOnInitialized()
 		{
 			// this is the method to call non-dynamic delegate
 			InventoryComponentRef->OnInventoryUpdated.AddUObject(this, &ThisClass::RefreshInventory);
+
+			//Initial Refresh of the inventory
+			RefreshInventory();
+			
 			SetInfoText();			
 		}
 	}
