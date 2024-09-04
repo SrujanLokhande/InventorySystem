@@ -888,12 +888,17 @@
       <change beforePath="$PROJECT_DIR$/Content/ExternalAssets/Infinity_Blade_Assets/Textures/T_Potions.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ExternalAssets/Infinity_Blade_Assets/Textures/T_Potions.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/InventorySystem/Blueprints/BP_PickupBase.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/Blueprints/BP_PickupBase.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/InventorySystem/DataStructures/DT_Test.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/DataStructures/DT_Test.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Maps/LVL_MainMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Maps/LVL_MainMap.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_InventoryWidget.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_InventoryWidget.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_MainMenuWidget.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_MainMenuWidget.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/InventorySystem/DataStructure/ItemDataStructs.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/DataStructure/ItemDataStructs.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/InventorySystem/InventorySystemCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/InventorySystemCharacter.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/InventorySystem/InventorySystemCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/InventorySystemCharacter.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/Actors/Pickup.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/Actors/Pickup.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryTooltip.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryTooltip.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryWidget.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/InventorySystemHUD.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/InventorySystemHUD.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/Actors/Pickup.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/Actors/Pickup.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/InventoryItemSlot.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/InventoryItemSlot.h" afterDir="false" />
     </list>
@@ -1165,6 +1170,7 @@
       <workItem from="1725075024745" duration="1370000" />
       <workItem from="1725116028788" duration="2388000" />
       <workItem from="1725314057007" duration="1861000" />
+      <workItem from="1725387978620" duration="18798000" />
     </task>
     <task id="LOCAL-00001" summary="Handled the stackable items stacking up and made the inventory to be fully functional">
       <option name="closed" value="true" />
