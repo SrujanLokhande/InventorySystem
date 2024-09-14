@@ -13,9 +13,12 @@
 #include "DrawDebugHelpers.h"
 #include "Actors/Pickup.h"
 #include "Actors/Tablet.h"
+#include "Blueprint/UserWidget.h"
 #include "Components/InventoryComponent.h"
 #include "Components/WidgetInteractionComponent.h"
 #include "UserInterface/InventorySystemHUD.h"
+#include "UserInterface/Inventory/DragItemVisual.h"
+#include "UserInterface/Inventory/InventoryTooltip.h"
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 AInventorySystemCharacter::AInventorySystemCharacter()
@@ -60,6 +63,7 @@ AInventorySystemCharacter::AInventorySystemCharacter()
 	WidgetInteractionComponent->VirtualUserIndex = 1;
 	WidgetInteractionComponent->InteractionSource = EWidgetInteractionSource::Mouse;
 	WidgetInteractionComponent->bEnableHitTesting = true;
+	WidgetInteractionComponent->bShowDebug = true;
 
 	PlayerInventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("Player Inventory"));
 	PlayerInventory->SetSlotsCapacity(40);
@@ -84,9 +88,12 @@ void AInventorySystemCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AInventorySystemCharacter::Move);
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AInventorySystemCharacter::Look);
-		// Interacting
+		// Interacting with items
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &ThisClass::BeginInteract);
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &ThisClass::EndInteract);
+		// UWidgetInteractionComponent interactions
+		EnhancedInputComponent->BindAction(MousePressed, ETriggerEvent::Started, this, &AInventorySystemCharacter::WidgetInteractPressed);
+		EnhancedInputComponent->BindAction(MouseReleased, ETriggerEvent::Started, this, &AInventorySystemCharacter::WidgetInteractReleased);
 		// Open Menu and inventory
 		EnhancedInputComponent->BindAction(ToggleMenuAction, ETriggerEvent::Triggered, this, &ThisClass::ToggleMenu);
 	}
@@ -144,6 +151,7 @@ void AInventorySystemCharacter::BeginPlay()
 	}
 
 	HUDRef = Cast<AInventorySystemHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
+	//CreateUIWidgets();
 }
 
 void AInventorySystemCharacter::Tick(float DeltaSeconds)
@@ -344,6 +352,16 @@ void AInventorySystemCharacter::ShowTablet()
 		CurrentTablet->SetActorHiddenInGame(false);
 		TabletCamera->SetActive(true);
 		FollowCamera->SetActive(false);
+		WidgetInteractionComponent->SetActive(true);
+
+		if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+		{
+			FInputModeGameAndUI InputMode;
+			InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+			InputMode.SetHideCursorDuringCapture(false);
+			PlayerController->SetInputMode(InputMode);
+			PlayerController->bShowMouseCursor = true;
+		}
 
 		if(UInventoryComponent* InventoryComponent = GetInventory())
 		{
@@ -361,8 +379,93 @@ void AInventorySystemCharacter::HideTablet()
 		CurrentTablet->SetActorHiddenInGame(true);
 		TabletCamera->SetActive(false);
 		FollowCamera->SetActive(true);
+		WidgetInteractionComponent->SetActive(false);
+
+		if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+		{
+			FInputModeGameOnly InputMode;
+			PlayerController->SetInputMode(InputMode);
+			PlayerController->bShowMouseCursor = false;
+		}
 	}
 }
+
+void AInventorySystemCharacter::WidgetInteractPressed()
+{
+	WidgetInteractionComponent->PressPointerKey(EKeys::LeftMouseButton);	
+}
+
+void AInventorySystemCharacter::WidgetInteractReleased()
+{
+	WidgetInteractionComponent->ReleasePointerKey(EKeys::LeftMouseButton);	
+}
+
+// void AInventorySystemCharacter::CreateUIWidgets()
+// {
+// 	if(ToolTipWidgetClass)
+// 	{
+// 		ToolTipWidget = CreateWidget<UInventoryTooltip>(GetWorld(), ToolTipWidgetClass);
+// 		ToolTipWidget->AddToViewport(100);
+// 		ToolTipWidget->IsInViewport() ? GEngine->AddOnScreenDebugMessage(-98, 5.0f, FColor::Black, TEXT("ToolTipWidgetCreated")) : GEngine->AddOnScreenDebugMessage(-98, 5.0f, FColor::Black, TEXT("TollTipWidget not created"));
+// 		ToolTipWidget->SetVisibility(ESlateVisibility::Hidden);
+//
+// 		// this is not working so either creae in a similar way like the inetraction widget in the HUD class or add another
+// 		// UWidgetComponent inisd e the Tabelt class and hide and show it based on the interaction
+// 		// either of the avove ways
+// 	}
+//
+// 	if(DragVisualClass)
+// 	{
+// 		DragVisualWidget = CreateWidget<UDragItemVisual>(GetWorld(), DragVisualClass);
+// 		DragVisualWidget->AddToViewport(100);
+// 		DragVisualWidget->IsInViewport() ? GEngine->AddOnScreenDebugMessage(-98, 5.0f, FColor::Black, TEXT("DragWidget Created")) : GEngine->AddOnScreenDebugMessage(-98, 5.0f, FColor::Black, TEXT("DragWidget not created"));
+// 		DragVisualWidget->SetVisibility(ESlateVisibility::Hidden);
+// 	}
+// }
+//
+// void AInventorySystemCharacter::UpdateToolTipWidget(const FVector2D& ScreenPosition, UItemBase* ItemIn)
+// {
+// 	if(ToolTipWidget)
+// 	{
+// 		UInventoryTooltip* Tooltip = Cast<UInventoryTooltip>(ToolTipWidget);
+// 		if(Tooltip)
+// 		{
+// 			Tooltip->UpdateToolTipContents(ItemIn);
+// 		}
+// 		Tooltip->SetPositionInViewport(ScreenPosition, false);
+// 		ToolTipWidget->SetVisibility(ESlateVisibility::Visible);
+// 	}
+// }
+//
+// void AInventorySystemCharacter::UpdateDragVisualWidget(const FVector2D& ScreenPosition, UItemBase* ItemIn)
+// {
+// 	if(DragVisualWidget)
+// 	{
+// 		UDragItemVisual* DragVisual = Cast<UDragItemVisual>(DragVisualWidget);
+// 		if(DragVisual)
+// 		{
+// 			DragVisual->UpdateToolTipContents(ItemIn);
+// 		}
+// 		DragVisual->SetPositionInViewport(ScreenPosition, false);
+// 		DragVisualWidget->SetVisibility(ESlateVisibility::Visible);
+// 	}
+// }
+//
+// void AInventorySystemCharacter::HideToolTipWidget()
+// {
+// 	if (ToolTipWidget)
+// 	{
+// 		ToolTipWidget->SetVisibility(ESlateVisibility::Hidden);
+// 	}
+// }
+//
+// void AInventorySystemCharacter::HideDragVisualWidget()
+// {
+// 	if (DragVisualWidget)
+// 	{
+// 		DragVisualWidget->SetVisibility(ESlateVisibility::Hidden);
+// 	}
+// }
 
 void AInventorySystemCharacter::DropItem(UItemBase* ItemToDrop, const int32 QuantityToDrop)
 {

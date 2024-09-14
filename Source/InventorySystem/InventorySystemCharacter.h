@@ -10,6 +10,8 @@
 #include "InventorySystemCharacter.generated.h"
 
 
+class UDragItemVisual;
+class UInventoryTooltip;
 class ATablet;
 class UWidgetInteractionComponent;
 class UItemBase;
@@ -50,6 +52,8 @@ public:
 	// PROPERTIES
 	//=============================================================================
 	
+	// UPROPERTY(EditDefaultsOnly, Category = "Tablet | UI")
+	// TSubclassOf<UDragItemVisual> DragVisualClass;
 
 	//=============================================================================
 	// FUNCTIONS
@@ -72,6 +76,12 @@ public:
 	void UpdateInteractionWidget() const;
 
 	void DropItem(UItemBase* ItemToDrop, const int32 QuantityToDrop);
+
+	// Inventory Tablet UI ToolTip and Drag Visual functions
+	// void UpdateToolTipWidget(const FVector2D& ScreenPosition, UItemBase* ItemIn);
+	// void UpdateDragVisualWidget(const FVector2D& ScreenPosition, UItemBase* ItemIn);
+	// void HideToolTipWidget();
+	// void HideDragVisualWidget();
 
 protected:
 
@@ -113,6 +123,14 @@ protected:
 	/** Interact Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* InteractAction;
+	
+	/** Mouse Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* MousePressed;
+
+	/** Mouse Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* MouseReleased;
 
 	/** Toggle Menu Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -128,12 +146,22 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Character | Inventory")
 	UInventoryComponent* PlayerInventory;
-
+	
 	UPROPERTY(VisibleAnywhere, Category = "Character | Tablet")
 	ATablet* CurrentTablet;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Character | Tablet")
 	TSubclassOf<ATablet> TabletClass;
+
+	// UPROPERTY()
+	// UInventoryTooltip* ToolTipWidget;
+	//
+	// UPROPERTY()
+	// UDragItemVisual* DragVisualWidget;
+	//
+	// UPROPERTY(EditDefaultsOnly, Category = "Tablet | UI")
+	// TSubclassOf<UInventoryTooltip> ToolTipWidgetClass;
+
 	
 	float InteractionCheckFrequency;
 
@@ -163,6 +191,11 @@ protected:
 	void ToggleMenu();
 	void ShowTablet();
 	void HideTablet();
+	void WidgetInteractPressed();
+	void WidgetInteractReleased();
+
+	// UI related functions for tooltip and the drag visual
+	void CreateUIWidgets();
 
 	virtual void Tick(float DeltaSeconds) override;
 

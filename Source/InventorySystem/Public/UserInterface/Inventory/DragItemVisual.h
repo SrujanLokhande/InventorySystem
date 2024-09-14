@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Items/ItemBase.h"
 #include "DragItemVisual.generated.h"
 
 /**
@@ -28,4 +29,5 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category = "Drag Item Visual", meta=(BindWidget))
 	UTextBlock* TXT_ItemQuantity;
+	//void UpdateToolTipContents(UItemBase* ItemIn);
 };

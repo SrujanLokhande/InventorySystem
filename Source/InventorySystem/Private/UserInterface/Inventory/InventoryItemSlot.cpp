@@ -1,7 +1,6 @@
 // Copyright Srujan Lokhande @2024
 
 #include "UserInterface/Inventory/InventoryItemSlot.h"
-
 #include "Components/Border.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
@@ -9,23 +8,28 @@
 #include "UserInterface/Inventory/DragItemVisual.h"
 #include "UserInterface/Inventory/InventoryTooltip.h"
 #include "UserInterface/Inventory/ItemDragDropOperation.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
 
 
 void UInventoryItemSlot::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
-	
-	if(ToolTipClass)
-	{
-		UInventoryTooltip* Tooltip = CreateWidget<UInventoryTooltip>(this, ToolTipClass);
-		Tooltip->InventorySlotBeingHovered = this;
-		SetToolTip(Tooltip);
-	}
+
+	// if(ToolTipClass)
+	// {
+	// 	//ToolTipUI->InventorySlotBeingHovered = this;		
+	// 	
+	// 	// ToolTipUI = CreateWidget<UInventoryTooltip>(this, ToolTipClass);
+	// 	// ToolTipUI->AddToViewport(10);
+	// 	// ToolTipUI->SetVisibility(ESlateVisibility::Collapsed);
+	// 	// SetToolTip(ToolTipUI);
+	// }
 }
 
 void UInventoryItemSlot::NativeConstruct()
 {
-	Super::NativeConstruct();
+	Super::NativeConstruct();	
 
 	// changing the color of the image border based on the rarity
 	if(ItemReference)
@@ -76,24 +80,24 @@ FReply UInventoryItemSlot::NativeOnMouseButtonDown(const FGeometry& InGeometry, 
 	return Reply.Unhandled();
 }
 
-void UInventoryItemSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
-{
-	Super::NativeOnMouseLeave(InMouseEvent);
-}
 
 void UInventoryItemSlot::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent,
 	UDragDropOperation*& OutOperation)
 {
 	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
 
+	if (!DragItemVisualClass || !ItemReference) return;
+
 	// for dragging the item actor 
 	if(DragItemVisualClass)
-	{
-		const TObjectPtr<UDragItemVisual> DragVisual = CreateWidget<UDragItemVisual>(this, DragItemVisualClass);
+	{		
+		
+		const TObjectPtr<UDragItemVisual> DragVisual = CreateWidget<UDragItemVisual>(this, DragItemVisualClass);		
+		
 		DragVisual->IMG_ItemIcon->SetBrushFromTexture(ItemReference->AssetData.Icon);
 		DragVisual->ItemBorder->SetBrushColor(ItemBorder->GetBrushColor());
 		DragVisual->TXT_ItemQuantity->SetText(FText::AsNumber(ItemReference->ItemQuantity));
-
+		
 		// checking if the item is not stackable then dont show the item quantity
 		ItemReference->NumericData.bIsStackable
 		? DragVisual->TXT_ItemQuantity->SetText(FText::AsNumber(ItemReference->ItemQuantity))
@@ -112,8 +116,14 @@ void UInventoryItemSlot::NativeOnDragDetected(const FGeometry& InGeometry, const
 	}
 }
 
-bool UInventoryItemSlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
-	UDragDropOperation* InOperation)
+void UInventoryItemSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
-	return Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
+	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
+	OnMouseEnterDelegate.Broadcast(this);
+}
+
+void UInventoryItemSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseLeave(InMouseEvent);
+	OnMouseLeaveDelegate.Broadcast(this);
 }

@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "InventoryTooltip.generated.h"
 
+class UItemBase;
 class UTextBlock;
 class UInventoryItemSlot;
 /**
@@ -43,7 +44,6 @@ public:
 	UPROPERTY(meta=(BindWidget))
 	UTextBlock* TXT_StackWeight;
 
-protected:
-
-	virtual void NativeConstruct() override;
+	virtual void NativeConstruct() override;	
+	void UpdateToolTipContents(const UItemBase* ItemIn);
 };

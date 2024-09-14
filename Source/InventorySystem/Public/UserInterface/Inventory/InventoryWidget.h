@@ -6,6 +6,8 @@
 #include "Blueprint/UserWidget.h"
 #include "InventoryWidget.generated.h"
 
+class UItemBase;
+class UInventoryTooltip;
 class UGridPanel;
 class UInventoryItemSlot;
 class UInventoryComponent;
@@ -26,15 +28,14 @@ public:
 	UFUNCTION()
 	void RefreshInventory();
 
-	// to make the grid lines of the widget
-	UFUNCTION()
-	void InitializeGrid(float InTileSize);	
-
-	// UPROPERTY(meta=(BindWidget))
-	// UWrapBox* InventoryWrapBox;
+	UPROPERTY(meta=(BindWidget))
+	UWrapBox* InventoryWrapBox;
 
 	UPROPERTY(meta=(BindWidget))
-	UGridPanel* InventoryGridPanel;
+	UInventoryTooltip* ToolTip;
+
+	// UPROPERTY(meta=(BindWidget))
+	// UGridPanel* InventoryGridPanel;
 	
 	UPROPERTY(meta=(BindWidget))
 	UTextBlock* TXT_WeightInfo;
@@ -51,6 +52,15 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory Slot")
 	TSubclassOf<UInventoryItemSlot> InventorySlotClass;
 
+	void UpdateToolTip(UItemBase* ItemToDisplay);
+	void HideToolTip();
+	
+	UFUNCTION()
+	void OnItemSlotMouseEnter(UInventoryItemSlot* ItemSlot);
+
+	UFUNCTION()
+	void OnItemSlotMouseLeave(UInventoryItemSlot* ItemSlot);
+
 protected:
 
 	// setting the info text to the UI
@@ -62,10 +72,5 @@ protected:
 	// when something is dropped on the UI
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
 		UDragDropOperation* InOperation) override;
-
-private:
-
-	UPROPERTY()
-	float TileSize;
 
 };

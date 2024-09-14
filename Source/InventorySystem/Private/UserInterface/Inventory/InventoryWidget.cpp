@@ -1,14 +1,13 @@
 // Copyright Srujan Lokhande @2024
 #include "UserInterface/Inventory/InventoryWidget.h"
 
-#include "Components/GridPanel.h"
-#include "Components/GridSlot.h"
 #include "Components/InventoryComponent.h"
 #include "Components/TextBlock.h"
 #include "Components/WrapBox.h"
 #include "InventorySystem/InventorySystemCharacter.h"
 #include "Items/ItemBase.h"
 #include "UserInterface/Inventory/InventoryItemSlot.h"
+#include "UserInterface/Inventory/InventoryTooltip.h"
 #include "UserInterface/Inventory/ItemDragDropOperation.h"
 
 void UInventoryWidget::NativeOnInitialized()
@@ -30,6 +29,10 @@ void UInventoryWidget::NativeOnInitialized()
 			SetInfoText();			
 		}
 	}
+	if(ToolTip)
+	{
+		ToolTip->SetVisibility(ESlateVisibility::Hidden);
+	}
 }
 
 bool UInventoryWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
@@ -47,67 +50,100 @@ bool UInventoryWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDrop
 }
 
 // using the Wrap Box
-// void UInventoryWidget::RefreshInventory()
-// {
-// 	if(InventoryComponentRef && InventorySlotClass)
-// 	{
-// 		// to get the most updated inventory we clear the previous inventory
-// 		InventoryWrapBox->ClearChildren();
-//
-// 		// iterating through all the Inventory items in the array and creates a slot of each item in the inventory Panel
-// 		for (UItemBase* const& InventoryItem : InventoryComponentRef->GetInventoryContents())
-// 		{
-// 			UInventoryItemSlot* ItemSlot =  CreateWidget<UInventoryItemSlot>(this, InventorySlotClass);
-// 			ItemSlot->SetItemReference(InventoryItem);
-//
-// 			// this creates and adds the ItemSlot in the Inventory Panel
-// 			InventoryWrapBox->AddChildToWrapBox(ItemSlot);
-// 		}
-//
-// 		SetInfoText();
-// 	}
-// }
-
-// using the GridPanel
 void UInventoryWidget::RefreshInventory()
 {
 	if(InventoryComponentRef && InventorySlotClass)
 	{
-		// Clear the previous inventory
-		InventoryGridPanel->ClearChildren();
+		// to get the most updated inventory we clear the previous inventory
+		InventoryWrapBox->ClearChildren();
 
-		int32 Column = 0;
-		int32 Row = 0;
-
-		// Iterating through all the Inventory items in the array
+		// iterating through all the Inventory items in the array and creates a slot of each item in the inventory Panel
 		for (UItemBase* const& InventoryItem : InventoryComponentRef->GetInventoryContents())
 		{
-			UInventoryItemSlot* ItemSlot = CreateWidget<UInventoryItemSlot>(this, InventorySlotClass);
+			UInventoryItemSlot* ItemSlot =  CreateWidget<UInventoryItemSlot>(this, InventorySlotClass);
 			ItemSlot->SetItemReference(InventoryItem);
 
-			// Create and add the ItemSlot to the Inventory Panel
-			UGridSlot* GridSlot = InventoryGridPanel->AddChildToGrid(ItemSlot);
-			GridSlot->SetRow(Row);
-			GridSlot->SetColumn(Column);
+			ItemSlot->OnMouseEnterDelegate.AddDynamic(this, &ThisClass::OnItemSlotMouseEnter);
+			ItemSlot->OnMouseLeaveDelegate.AddDynamic(this, &ThisClass::OnItemSlotMouseLeave);
 
-			// Move to the next column and wrap to the next row if necessary
-			++Column;
-			if (constexpr int32 MaxColumns = 6; Column >= MaxColumns)
-			{
-				Column = 0;
-				++Row;
-			}
+			// this creates and adds the ItemSlot in the Inventory Panel
+			InventoryWrapBox->AddChildToWrapBox(ItemSlot);
 		}
 
 		SetInfoText();
 	}
 }
 
-void UInventoryWidget::InitializeGrid(float InTileSize)
+// using the GridPanel
+// void UInventoryWidget::RefreshInventory()
+// {
+// 	if(InventoryComponentRef && InventorySlotClass)
+// 	{
+// 		// Clear the previous inventory
+// 		InventoryGridPanel->ClearChildren();
+//
+// 		int32 Column = 0;
+// 		int32 Row = 0;
+//
+// 		// Iterating through all the Inventory items in the array
+// 		for (UItemBase* const& InventoryItem : InventoryComponentRef->GetInventoryContents())
+// 		{
+// 			UInventoryItemSlot* ItemSlot = CreateWidget<UInventoryItemSlot>(this, InventorySlotClass);
+// 			ItemSlot->SetItemReference(InventoryItem);
+//
+// 			// Create and add the ItemSlot to the Inventory Panel
+// 			UGridSlot* GridSlot = InventoryGridPanel->AddChildToGrid(ItemSlot);
+// 			GridSlot->SetRow(Row);
+// 			GridSlot->SetColumn(Column);
+//
+// 			// Move to the next column and wrap to the next row if necessary
+// 			++Column;
+// 			if (constexpr int32 MaxColumns = 6; Column >= MaxColumns)
+// 			{
+// 				Column = 0;
+// 				++Row;
+// 			}
+// 		}
+//
+// 		SetInfoText();
+// 	}
+// }
+
+// void UInventoryWidget::InitializeGrid(float InTileSize)
+// {
+// 	if(InventoryComponentRef == nullptr) return;
+// 	
+// 	TileSize = InTileSize;
+// }
+
+void UInventoryWidget::UpdateToolTip(UItemBase* ItemToDisplay)
 {
-	if(InventoryComponentRef == nullptr) return;
-	
-	TileSize = InTileSize;
+	if(ToolTip && ItemToDisplay)
+	{
+		ToolTip->UpdateToolTipContents(ItemToDisplay);
+		ToolTip->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
+void UInventoryWidget::HideToolTip()
+{
+	if(ToolTip->IsVisible())
+	{
+		ToolTip->SetVisibility(ESlateVisibility::Hidden);
+	}
+}
+
+void UInventoryWidget::OnItemSlotMouseEnter(UInventoryItemSlot* ItemSlot)
+{
+	if(ItemSlot)
+	{
+		UpdateToolTip(ItemSlot->GetItemReference());
+	}
+}
+
+void UInventoryWidget::OnItemSlotMouseLeave(UInventoryItemSlot* ItemSlot)
+{
+	HideToolTip();
 }
 
 void UInventoryWidget::SetInfoText() const

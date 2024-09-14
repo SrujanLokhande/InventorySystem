@@ -21,12 +21,12 @@ void AInventorySystemHUD::BeginPlay()
 	{
 		// Here UMainMenu::StaticClass would fail because Static Class only gets the C++ version
 		// but the MainMenuClass has the Blueprint version because it is designed in the editor
-		MainMenuWidget = CreateWidget<UMainMenuWidget>(GetWorld(), MainMenuClass);
+		//MainMenuWidget = CreateWidget<UMainMenuWidget>(GetWorld(), MainMenuClass);
 		//MainMenuWidget->AddToViewport(5);
 
 		// the difference between hidden and collapsed is that making it hidden it will still have tasks running in bg
 		// collapsed is more performant because it does not have tasks running in bg
-		MainMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
+		//MainMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
 
 	if(InteractionWidgetClass)
@@ -39,43 +39,43 @@ void AInventorySystemHUD::BeginPlay()
 }
 
 
-void AInventorySystemHUD::DisplayMenu()
-{
-	if(MainMenuWidget)
-	{
-		bIsMenuVisible = true;
-		MainMenuWidget->SetVisibility(ESlateVisibility::Visible);
-	}
-}
-
-void AInventorySystemHUD::HideMenu()
-{
-	if(MainMenuWidget)
-	{
-		bIsMenuVisible = false;
-		MainMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
-	}
-}
-
-void AInventorySystemHUD::ToggleMenu()
-{
-	if(bIsMenuVisible)
-	{
-		HideMenu();
-
-		const FInputModeGameOnly InputMode;
-		GetOwningPlayerController()->SetInputMode(InputMode);
-		GetOwningPlayerController()->SetShowMouseCursor(false);
-	}
-	else
-	{
-		DisplayMenu();
-
-		const FInputModeGameAndUI InputMode;
-		GetOwningPlayerController()->SetInputMode(InputMode);
-		GetOwningPlayerController()->SetShowMouseCursor(true);
-	}
-}
+// void AInventorySystemHUD::DisplayMenu()
+// {
+// 	if(MainMenuWidget)
+// 	{
+// 		bIsMenuVisible = true;
+// 		MainMenuWidget->SetVisibility(ESlateVisibility::Visible);
+// 	}
+// }
+//
+// void AInventorySystemHUD::HideMenu()
+// {
+// 	if(MainMenuWidget)
+// 	{
+// 		bIsMenuVisible = false;
+// 		MainMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
+// 	}
+// }
+//
+// void AInventorySystemHUD::ToggleMenu()
+// {
+// 	if(bIsMenuVisible)
+// 	{
+// 		HideMenu();
+//
+// 		const FInputModeGameOnly InputMode;		
+// 		GetOwningPlayerController()->SetInputMode(InputMode);
+// 		GetOwningPlayerController()->SetShowMouseCursor(false);
+// 	}
+// 	else
+// 	{
+// 		DisplayMenu();
+//
+// 		const FInputModeGameAndUI InputMode;		
+// 		GetOwningPlayerController()->SetInputMode(InputMode);
+// 		GetOwningPlayerController()->SetShowMouseCursor(true);		
+// 	}
+// }
 
 void AInventorySystemHUD::ShowInteractionWidget()
 {
