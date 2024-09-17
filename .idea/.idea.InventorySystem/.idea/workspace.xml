@@ -11,23 +11,10 @@
   <component name="ChangeListManager">
     <list default="true" id="7e3a5ab4-8bab-4ff4-93d7-c119ae19cada" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.InventorySystem/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.InventorySystem/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/Blueprints/BP_Tablet.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/Blueprints/BP_Tablet.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Maps/LVL_MainMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Maps/LVL_MainMap.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_DragItemVisual.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_DragItemVisual.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_InventoryItemSlot.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_InventoryItemSlot.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_InventoryWidget.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_InventoryWidget.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_MainMenuWidget.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_MainMenuWidget.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/InventorySystem/InventorySystemCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/InventorySystemCharacter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/InventorySystemCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/InventorySystemCharacter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/Actors/Tablet.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/Actors/Tablet.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/DragItemVisual.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/DragItemVisual.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryItemSlot.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryItemSlot.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryTooltip.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryTooltip.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/InventorySystemHUD.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/InventorySystemHUD.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/DragItemVisual.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/DragItemVisual.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/InventoryItemSlot.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/InventoryItemSlot.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/InventoryTooltip.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/InventoryTooltip.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +29,6 @@
     <setting file="file://$PROJECT_DIR$/../FPSInventory/Source/FPSInventory.Target.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../FPSInventory/Source/FPSInventory/FPSInventory.Build.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../FPSInventory/Source/FPSInventoryEditor.Target.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/InventorySystem/UHT/Tablet.gen.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../UnrealEngine-Inventory-master/Source/FPSInventory.Target.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../UnrealEngine-Inventory-master/Source/FPSInventory/FPSInventory.Build.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../UnrealEngine-Inventory-master/Source/FPSInventoryEditor.Target.cs" root0="SKIP_HIGHLIGHTING" />
@@ -312,6 +298,7 @@
       <workItem from="1726202441219" duration="4854000" />
       <workItem from="1726239061592" duration="3557000" />
       <workItem from="1726288193740" duration="868000" />
+      <workItem from="1726530744781" duration="2242000" />
     </task>
     <task id="LOCAL-00001" summary="Handled the stackable items stacking up and made the inventory to be fully functional">
       <option name="closed" value="true" />

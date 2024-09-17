@@ -319,7 +319,7 @@ void AInventorySystemCharacter::UpdateInteractionWidget() const
 
 void AInventorySystemCharacter::ToggleMenu() 
 {
-	HUDRef->ToggleMenu();
+	//HUDRef->ToggleMenu();
 	if(bIsTabletVisible)
 	{
 		HideTablet();

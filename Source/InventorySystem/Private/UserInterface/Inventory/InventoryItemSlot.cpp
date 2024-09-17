@@ -6,10 +6,9 @@
 #include "Components/TextBlock.h"
 #include "Items/ItemBase.h"
 #include "UserInterface/Inventory/DragItemVisual.h"
-#include "UserInterface/Inventory/InventoryTooltip.h"
 #include "UserInterface/Inventory/ItemDragDropOperation.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
-#include "Blueprint/WidgetLayoutLibrary.h"
+
 
 
 void UInventoryItemSlot::NativeOnInitialized()
@@ -126,4 +125,10 @@ void UInventoryItemSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseLeave(InMouseEvent);
 	OnMouseLeaveDelegate.Broadcast(this);
+}
+
+bool UInventoryItemSlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
+	UDragDropOperation* InOperation)
+{
+	return Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
 }
