@@ -194,9 +194,6 @@ protected:
 	void WidgetInteractPressed();
 	void WidgetInteractReleased();
 
-	// UI related functions for tooltip and the drag visual
-	void CreateUIWidgets();
-
 	virtual void Tick(float DeltaSeconds) override;
 
 	/** Called for movement input */

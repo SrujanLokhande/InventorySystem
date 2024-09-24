@@ -24,16 +24,21 @@ void UInventoryWidget::NativeOnInitialized()
 			InventoryComponentRef->OnInventoryUpdated.AddUObject(this, &ThisClass::RefreshInventory);
 
 			//Initial Refresh of the inventory
-			RefreshInventory();
+			//RefreshInventory();
 			
 			SetInfoText();			
 		}
 	}
-	if(ToolTip)
-	{
-		ToolTip->SetVisibility(ESlateVisibility::Hidden);
-	}
+	// if(ToolTip)
+	// {
+	// 	ToolTip->SetVisibility(ESlateVisibility::Hidden);
+	// }
 }
+
+// void UInventoryWidget::SetTabletReference(ATablet* Tablet)
+// {
+// 	TabletReference = Tablet;
+// }
 
 bool UInventoryWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
 	UDragDropOperation* InOperation)
@@ -52,7 +57,7 @@ bool UInventoryWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDrop
 // using the Wrap Box
 void UInventoryWidget::RefreshInventory()
 {
-	if(InventoryComponentRef && InventorySlotClass)
+	if(InventoryComponentRef && InventorySlotClass) //&& TabletReference)
 	{
 		// to get the most updated inventory we clear the previous inventory
 		InventoryWrapBox->ClearChildren();
@@ -62,9 +67,10 @@ void UInventoryWidget::RefreshInventory()
 		{
 			UInventoryItemSlot* ItemSlot =  CreateWidget<UInventoryItemSlot>(this, InventorySlotClass);
 			ItemSlot->SetItemReference(InventoryItem);
-
-			ItemSlot->OnMouseEnterDelegate.AddDynamic(this, &ThisClass::OnItemSlotMouseEnter);
-			ItemSlot->OnMouseLeaveDelegate.AddDynamic(this, &ThisClass::OnItemSlotMouseLeave);
+			// ItemSlot->SetTabletReference(TabletReference);
+			//
+			// ItemSlot->OnMouseEnterDelegate.AddDynamic(this, &ThisClass::OnItemSlotMouseEnter);
+			// ItemSlot->OnMouseLeaveDelegate.AddDynamic(this, &ThisClass::OnItemSlotMouseLeave);
 
 			// this creates and adds the ItemSlot in the Inventory Panel
 			InventoryWrapBox->AddChildToWrapBox(ItemSlot);
@@ -116,35 +122,35 @@ void UInventoryWidget::RefreshInventory()
 // 	TileSize = InTileSize;
 // }
 
-void UInventoryWidget::UpdateToolTip(UItemBase* ItemToDisplay)
-{
-	if(ToolTip && ItemToDisplay)
-	{
-		ToolTip->UpdateToolTipContents(ItemToDisplay);
-		ToolTip->SetVisibility(ESlateVisibility::Visible);
-	}
-}
-
-void UInventoryWidget::HideToolTip()
-{
-	if(ToolTip->IsVisible())
-	{
-		ToolTip->SetVisibility(ESlateVisibility::Hidden);
-	}
-}
-
-void UInventoryWidget::OnItemSlotMouseEnter(UInventoryItemSlot* ItemSlot)
-{
-	if(ItemSlot)
-	{
-		UpdateToolTip(ItemSlot->GetItemReference());
-	}
-}
-
-void UInventoryWidget::OnItemSlotMouseLeave(UInventoryItemSlot* ItemSlot)
-{
-	HideToolTip();
-}
+// void UInventoryWidget::UpdateToolTip(const UItemBase* ItemToDisplay) const
+// {
+// 	if(ToolTip && ItemToDisplay)
+// 	{
+// 		ToolTip->UpdateToolTipContents(ItemToDisplay);
+// 		ToolTip->SetVisibility(ESlateVisibility::Visible);
+// 	}
+// }
+//
+// void UInventoryWidget::HideToolTip() const
+// {
+// 	if(ToolTip->IsVisible())
+// 	{
+// 		ToolTip->SetVisibility(ESlateVisibility::Hidden);
+// 	}
+// }
+//
+// void UInventoryWidget::OnItemSlotMouseEnter(UInventoryItemSlot* ItemSlot) 
+// {
+// 	if(ItemSlot)
+// 	{
+// 		UpdateToolTip(ItemSlot->GetItemReference());
+// 	}
+// }
+//
+// void UInventoryWidget::OnItemSlotMouseLeave(UInventoryItemSlot* ItemSlot)
+// {
+// 	HideToolTip();
+// }
 
 void UInventoryWidget::SetInfoText() const
 {

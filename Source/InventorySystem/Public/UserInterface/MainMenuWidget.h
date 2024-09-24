@@ -7,6 +7,7 @@
 #include "MainMenuWidget.generated.h"
 
 
+class UInventoryWidget;
 class AInventorySystemCharacter;
 /**
  * 
@@ -21,6 +22,8 @@ public:
 	UPROPERTY()
 	AInventorySystemCharacter* PlayerCharacter;
 
+	FORCEINLINE UInventoryWidget* GetInventoryWidgetClass() const { return WBP_InventoryWidget; }
+
 protected:
 	
 	virtual void NativeOnInitialized() override;
@@ -29,4 +32,7 @@ protected:
 	// when we do drag and drop for the inventory item
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
 		UDragDropOperation* InOperation) override;
+
+	UPROPERTY(meta=(BindWidget))
+	UInventoryWidget* WBP_InventoryWidget;
 };

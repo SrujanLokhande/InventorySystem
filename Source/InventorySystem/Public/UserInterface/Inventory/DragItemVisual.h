@@ -28,6 +28,11 @@ public:
 	UImage* IMG_ItemIcon;
 
 	UPROPERTY(VisibleAnywhere, Category = "Drag Item Visual", meta=(BindWidget))
-	UTextBlock* TXT_ItemQuantity;
-	//void UpdateToolTipContents(UItemBase* ItemIn);
+	UTextBlock* TXT_ItemQuantity;	
+
+// 	UFUNCTION()
+// 	void SetItemReference(UItemBase* ItemBase) const;
+//
+// protected:
+// 	virtual void NativeConstruct() override;
 };

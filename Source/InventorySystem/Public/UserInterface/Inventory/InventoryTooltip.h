@@ -45,5 +45,5 @@ public:
 	UTextBlock* TXT_StackWeight;
 
 	virtual void NativeConstruct() override;	
-	void UpdateToolTipContents(const UItemBase* ItemIn);
+	//void UpdateToolTipContents(const UItemBase* ItemIn);
 };

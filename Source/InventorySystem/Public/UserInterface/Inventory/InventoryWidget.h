@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Actors/Tablet.h"
 #include "Blueprint/UserWidget.h"
 #include "InventoryWidget.generated.h"
 
+class UWidgetComponent;
 class UItemBase;
 class UInventoryTooltip;
 class UGridPanel;
@@ -31,8 +33,8 @@ public:
 	UPROPERTY(meta=(BindWidget))
 	UWrapBox* InventoryWrapBox;
 
-	UPROPERTY(meta=(BindWidget))
-	UInventoryTooltip* ToolTip;
+	// UPROPERTY(meta=(BindWidget))
+	// UInventoryTooltip* ToolTip;
 
 	// UPROPERTY(meta=(BindWidget))
 	// UGridPanel* InventoryGridPanel;
@@ -51,16 +53,20 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory Slot")
 	TSubclassOf<UInventoryItemSlot> InventorySlotClass;
-
-	void UpdateToolTip(UItemBase* ItemToDisplay);
-	void HideToolTip();
-	
-	UFUNCTION()
-	void OnItemSlotMouseEnter(UInventoryItemSlot* ItemSlot);
-
-	UFUNCTION()
-	void OnItemSlotMouseLeave(UInventoryItemSlot* ItemSlot);
-
+	//
+	// UPROPERTY()
+	// ATablet* TabletReference;
+	//
+	// void UpdateToolTip(const UItemBase* ItemToDisplay) const;
+	// void HideToolTip() const;
+	//
+	// UFUNCTION()
+	// void OnItemSlotMouseEnter(UInventoryItemSlot* ItemSlot) ;
+	//
+	// UFUNCTION()
+	// void OnItemSlotMouseLeave(UInventoryItemSlot* ItemSlot);
+	//
+	// void SetTabletReference(ATablet* Tablet);
 protected:
 
 	// setting the info text to the UI
@@ -72,5 +78,9 @@ protected:
 	// when something is dropped on the UI
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
 		UDragDropOperation* InOperation) override;
+
+private:
+	UPROPERTY()
+	UWidgetComponent* OwningWidgetComponent;
 
 };
