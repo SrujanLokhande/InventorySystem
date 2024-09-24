@@ -7,7 +7,7 @@
 #include "Items/ItemBase.h"
 #include "InventoryItemSlot.generated.h"
 
-class ATablet;
+
 class UWidgetComponent;
 class UInventoryItemSlot;
 class UImage;
@@ -19,8 +19,6 @@ class UTextBlock;
 /**
  * 
  */
-
-//DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnItemSlotMouseEvent, UInventoryItemSlot*, ItemSlot);
 UCLASS()
 class INVENTORYSYSTEM_API UInventoryItemSlot : public UUserWidget
 {
@@ -29,19 +27,7 @@ class INVENTORYSYSTEM_API UInventoryItemSlot : public UUserWidget
 public:
 
 	FORCEINLINE void SetItemReference(UItemBase* ItemIn) { ItemReference = ItemIn; }
-	FORCEINLINE UItemBase* GetItemReference() const { return ItemReference; }	
-
-	// UPROPERTY(BlueprintAssignable, Category = "ItemSlotMouseEvents")
-	// FOnItemSlotMouseEvent OnMouseEnterDelegate;
-	//
-	// UPROPERTY(BlueprintAssignable, Category = "ItemSlotMouseEvents")
-	// FOnItemSlotMouseEvent OnMouseLeaveDelegate;
-	//
-	// UPROPERTY()
-	// ATablet* TabletReference;
-
-	void UpdateSlotVisual();
-	//void SetTabletReference(ATablet* Tablet);
+	FORCEINLINE UItemBase* GetItemReference() const { return ItemReference; }		
 
 protected:
 	
@@ -73,10 +59,7 @@ protected:
 	
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
-		UDragDropOperation* InOperation) override;
-	// virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
-	// virtual void NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
-	//virtual FReply NativeOnMouseMove(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+		UDragDropOperation* InOperation) override;	
 
 };
 

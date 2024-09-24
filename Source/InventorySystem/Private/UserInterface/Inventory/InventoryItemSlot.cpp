@@ -17,9 +17,7 @@ void UInventoryItemSlot::NativeOnInitialized()
 	if(ToolTipClass)
 	{		
 		UInventoryTooltip* Tooltip = CreateWidget<UInventoryTooltip>(this, ToolTipClass);
-		Tooltip->InventorySlotBeingHovered = this;		
-		 //ToolTipUI->AddToViewport(10);
-		//ToolTipUI->SetVisibility(ESlateVisibility::Collapsed);
+		Tooltip->InventorySlotBeingHovered = this;	
 		 SetToolTip(Tooltip);
 	}
 }
@@ -61,18 +59,6 @@ void UInventoryItemSlot::NativeConstruct()
 		}
 	}
 }
-
-// void UInventoryItemSlot::SetItemReference(UItemBase* Item)
-// {
-// 	ItemReference = Item;
-// 	UpdateSlotVisual();
-// }
-
-
-// void UInventoryItemSlot::SetTabletReference(ATablet* Tablet)
-// {
-// 	TabletReference = Tablet;
-// }
 
 FReply UInventoryItemSlot::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
@@ -124,26 +110,9 @@ void UInventoryItemSlot::NativeOnDragDetected(const FGeometry& InGeometry, const
 	}
 }
 
-// void UInventoryItemSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
-// {
-// 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
-// 	OnMouseEnterDelegate.Broadcast(this);
-// }
-
-// void UInventoryItemSlot::NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
-// {
-// 	Super::NativeOnDragCancelled(InDragDropEvent, InOperation);
-// 	
-// 	if (TabletReference)
-// 	{
-// 		TabletReference->EndItemDrag();
-// 	}
-// }
-
 void UInventoryItemSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 {
-	Super::NativeOnMouseLeave(InMouseEvent);
-	//OnMouseLeaveDelegate.Broadcast(this);
+	Super::NativeOnMouseLeave(InMouseEvent);	
 }
 
 bool UInventoryItemSlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,

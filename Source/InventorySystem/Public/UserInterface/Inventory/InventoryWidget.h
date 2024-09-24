@@ -10,7 +10,6 @@
 class UWidgetComponent;
 class UItemBase;
 class UInventoryTooltip;
-class UGridPanel;
 class UInventoryItemSlot;
 class UInventoryComponent;
 class AInventorySystemCharacter;
@@ -32,10 +31,7 @@ public:
 
 	UPROPERTY(meta=(BindWidget))
 	UWrapBox* InventoryWrapBox;
-
-	// UPROPERTY(meta=(BindWidget))
-	// UInventoryTooltip* ToolTip;
-
+	
 	// UPROPERTY(meta=(BindWidget))
 	// UGridPanel* InventoryGridPanel;
 	
@@ -53,21 +49,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory Slot")
 	TSubclassOf<UInventoryItemSlot> InventorySlotClass;
-	//
-	// UPROPERTY()
-	// ATablet* TabletReference;
-	//
-	// void UpdateToolTip(const UItemBase* ItemToDisplay) const;
-	// void HideToolTip() const;
-	//
-	// UFUNCTION()
-	// void OnItemSlotMouseEnter(UInventoryItemSlot* ItemSlot) ;
-	//
-	// UFUNCTION()
-	// void OnItemSlotMouseLeave(UInventoryItemSlot* ItemSlot);
-	//
-	// void SetTabletReference(ATablet* Tablet);
-protected:
+	
 
 	// setting the info text to the UI
 	void SetInfoText() const;

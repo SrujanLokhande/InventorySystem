@@ -29,10 +29,4 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category = "Drag Item Visual", meta=(BindWidget))
 	UTextBlock* TXT_ItemQuantity;	
-
-// 	UFUNCTION()
-// 	void SetItemReference(UItemBase* ItemBase) const;
-//
-// protected:
-// 	virtual void NativeConstruct() override;
 };

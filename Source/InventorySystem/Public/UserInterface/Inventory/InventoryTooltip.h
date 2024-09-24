@@ -44,6 +44,5 @@ public:
 	UPROPERTY(meta=(BindWidget))
 	UTextBlock* TXT_StackWeight;
 
-	virtual void NativeConstruct() override;	
-	//void UpdateToolTipContents(const UItemBase* ItemIn);
+	virtual void NativeConstruct() override;		
 };

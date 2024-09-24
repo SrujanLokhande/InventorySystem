@@ -27,32 +27,4 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UWidgetComponent* InventoryWidgetComponent;
 
-// 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-// 	UWidgetComponent* DragVisualComponent;
-//
-// 	UFUNCTION(BlueprintCallable, Category = "Inventory")
-// 	void StartItemDrag(UItemBase* ItemToDrag);	
-//
-// 	UFUNCTION(BlueprintCallable, Category = "Inventory")
-// 	void EndItemDrag();
-//
-// protected:	
-// 	virtual void BeginPlay() override;
-//
-// 	virtual void Tick(float DeltaSeconds) override;
-//
-// 	
-// private:
-// 	
-// 	UPROPERTY()
-// 	UDragItemVisual* DragVisualClass;
-//
-// 	UPROPERTY()
-// 	UInventoryWidget* InventoryWidgetClass;
-//
-// 	UPROPERTY()
-// 	UMainMenuWidget* MainMenuWidgetClass;
-// 	
-// 	void UpdateDragVisualPosition() const;
-
 };

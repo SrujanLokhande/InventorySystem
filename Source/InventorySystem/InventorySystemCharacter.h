@@ -77,12 +77,6 @@ public:
 
 	void DropItem(UItemBase* ItemToDrop, const int32 QuantityToDrop);
 
-	// Inventory Tablet UI ToolTip and Drag Visual functions
-	// void UpdateToolTipWidget(const FVector2D& ScreenPosition, UItemBase* ItemIn);
-	// void UpdateDragVisualWidget(const FVector2D& ScreenPosition, UItemBase* ItemIn);
-	// void HideToolTipWidget();
-	// void HideDragVisualWidget();
-
 protected:
 
 	//=============================================================================
@@ -152,16 +146,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Character | Tablet")
 	TSubclassOf<ATablet> TabletClass;
-
-	// UPROPERTY()
-	// UInventoryTooltip* ToolTipWidget;
-	//
-	// UPROPERTY()
-	// UDragItemVisual* DragVisualWidget;
-	//
-	// UPROPERTY(EditDefaultsOnly, Category = "Tablet | UI")
-	// TSubclassOf<UInventoryTooltip> ToolTipWidgetClass;
-
 	
 	float InteractionCheckFrequency;
 

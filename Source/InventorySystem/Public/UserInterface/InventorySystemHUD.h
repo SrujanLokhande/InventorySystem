@@ -37,10 +37,6 @@ public:
 
 	// Sets default values for this actor's properties
 	AInventorySystemHUD();
-
-	void DisplayMenu();
-	void HideMenu();
-	void ToggleMenu();	
 	
 	void ShowInteractionWidget();
 	void HideInteractionWidget();
