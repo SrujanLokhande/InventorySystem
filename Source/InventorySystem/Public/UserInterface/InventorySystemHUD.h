@@ -37,7 +37,9 @@ public:
 
 	// Sets default values for this actor's properties
 	AInventorySystemHUD();
-	
+
+	//void HideMenu();
+	//void ToggleMenu();
 	void ShowInteractionWidget();
 	void HideInteractionWidget();
 	void UpdateInteractionWidget(const FInteractableData* InteractableData) const;
@@ -59,4 +61,5 @@ protected:
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	//void DisplayMenu();
 };

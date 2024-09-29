@@ -10,6 +10,7 @@
 #include "InventorySystemCharacter.generated.h"
 
 
+class ASword;
 class UDragItemVisual;
 class UInventoryTooltip;
 class ATablet;
@@ -71,11 +72,16 @@ public:
 	AInventorySystemCharacter();
 	FORCEINLINE bool IsInteracting() const { return GetWorldTimerManager().IsTimerActive(TimerHandleInteraction); }
 
-	FORCEINLINE UInventoryComponent* GetInventory() const { return PlayerInventory; }
+	FORCEINLINE UInventoryComponent* GetInventory() const { return PlayerInventory; }	
 
 	void UpdateInteractionWidget() const;
 
 	void DropItem(UItemBase* ItemToDrop, const int32 QuantityToDrop);
+
+	void EquipWeapon(UItemBase* WeaponItem);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rendering")
+	UTextureRenderTarget2D* PlayerRenderTarget;
 
 protected:
 
@@ -85,6 +91,9 @@ protected:
 
 	UPROPERTY()
 	AInventorySystemHUD* HUDRef;
+
+	UPROPERTY()
+	ASword* SwordWeapon;
 
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -146,6 +155,12 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Character | Tablet")
 	TSubclassOf<ATablet> TabletClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character | Tablet")
+	TSubclassOf<ASword> SwordClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+	USceneCaptureComponent2D* SceneCaptureComponent;	
 	
 	float InteractionCheckFrequency;
 

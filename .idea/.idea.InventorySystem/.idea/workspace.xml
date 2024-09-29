@@ -11,20 +11,16 @@
   <component name="ChangeListManager">
     <list default="true" id="7e3a5ab4-8bab-4ff4-93d7-c119ae19cada" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.InventorySystem/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.InventorySystem/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/DataStructure/DS_Line.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/DataStructure/DS_Tile.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/Characters/Mannequins/Animations/ABP_Manny.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Characters/Mannequins/Animations/ABP_Manny.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/Characters/Mannequins/Meshes/SK_Mannequin.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Characters/Mannequins/Meshes/SK_Mannequin.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/Blueprints/BP_Tablet.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/Blueprints/BP_Tablet.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Maps/LVL_MainMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/ThirdPerson/Maps/LVL_MainMap.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_InventoryWidget.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/InventorySystem/UI/WBP_InventoryWidget.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/InventorySystem/InventorySystemCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/InventorySystemCharacter.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/InventorySystem/InventorySystemCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/InventorySystemCharacter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/Actors/Tablet.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/Actors/Tablet.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/DragItemVisual.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/DragItemVisual.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryItemSlot.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryItemSlot.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryTooltip.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryTooltip.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/UserInterface/Inventory/InventoryWidget.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/Actors/Tablet.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/Actors/Tablet.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/DragItemVisual.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/DragItemVisual.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/InventoryItemSlot.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/InventoryItemSlot.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/InventoryTooltip.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/InventoryTooltip.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/InventoryWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/Inventory/InventoryWidget.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Private/Actors/Pickup.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Private/Actors/Pickup.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/Items/ItemBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/Items/ItemBase.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/InventorySystemHUD.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/InventorySystem/Public/UserInterface/InventorySystemHUD.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,8 +32,6 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../Epic Games/UE_4.27/Engine/Source/Runtime/Engine/Private/Components/SceneComponent.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../FPSInventory/Source/FPSInventory.Target.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../FPSInventory/Source/FPSInventory/FPSInventory.Build.cs" root0="SKIP_HIGHLIGHTING" />
@@ -323,6 +317,13 @@
       <workItem from="1727057708286" duration="1218000" />
       <workItem from="1727130505372" duration="2823000" />
       <workItem from="1727135761336" duration="958000" />
+      <workItem from="1727148972340" duration="2426000" />
+      <workItem from="1727188433893" duration="1377000" />
+      <workItem from="1727209578339" duration="9843000" />
+      <workItem from="1727240624558" duration="617000" />
+      <workItem from="1727501571144" duration="2325000" />
+      <workItem from="1727547181285" duration="3531000" />
+      <workItem from="1727582338966" duration="3691000" />
     </task>
     <task id="LOCAL-00001" summary="Handled the stackable items stacking up and made the inventory to be fully functional">
       <option name="closed" value="true" />
@@ -337,6 +338,16 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnitTestsCoverage.Settings">
+    <option name="coveragePercentColumnWidth" value="75" />
+    <option name="sortOrder" value="DESCENDING" />
+    <option name="sortedColumn" value="1" />
+    <option name="symbolColumnWidth" value="75" />
+    <coverage-tree-state>
+      <expand />
+      <select />
+    </coverage-tree-state>
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Actors/Sword.h"
 #include "UObject/Object.h"
 #include "InventorySystem/DataStructure/ItemDataStructs.h"
 #include "ItemBase.generated.h"
@@ -52,6 +53,7 @@ public:
 	bool bIsPickup;
 
 	void ResetItemFlags();
+	TSubclassOf<ASword> GetWeaponClass() const { return this->GetClass(); }
 
 	// Constructor
 	UItemBase();

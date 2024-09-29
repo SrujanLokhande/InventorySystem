@@ -12,10 +12,13 @@
 #include "InputActionValue.h"
 #include "DrawDebugHelpers.h"
 #include "Actors/Pickup.h"
+#include "Actors/Sword.h"
 #include "Actors/Tablet.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/InventoryComponent.h"
+#include "Components/SceneCaptureComponent2D.h"
 #include "Components/WidgetInteractionComponent.h"
+#include "Engine/TextureRenderTarget2D.h"
 #include "UserInterface/InventorySystemHUD.h"
 #include "UserInterface/Inventory/DragItemVisual.h"
 #include "UserInterface/Inventory/InventoryTooltip.h"
@@ -68,6 +71,11 @@ AInventorySystemCharacter::AInventorySystemCharacter()
 	PlayerInventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("Player Inventory"));
 	PlayerInventory->SetSlotsCapacity(40);
 	PlayerInventory->SetWeightCapacity(60);
+
+	SceneCaptureComponent = CreateDefaultSubobject<USceneCaptureComponent2D>(TEXT("Scene Capture Component"));
+	SceneCaptureComponent->SetupAttachment(RootComponent);
+	SceneCaptureComponent->bCaptureEveryFrame = true;
+	SceneCaptureComponent->TextureTarget = PlayerRenderTarget;
 
 	InteractionCheckFrequency = 0.1;
 	InteractionCheckDistance = 225.f;
@@ -420,6 +428,33 @@ void AInventorySystemCharacter::DropItem(UItemBase* ItemToDrop, const int32 Quan
 
 		// Updating the DataTable by calling the Drop Function from the Item itself 
 		Pickup->InitializeDrop(ItemToDrop, RemovedQuantity);
+	}
+}
+
+void AInventorySystemCharacter::EquipWeapon(UItemBase* WeaponItem)
+{
+	if (WeaponItem)
+	{
+		
+		if (SwordClass)
+		{			
+			if (SwordWeapon)
+			{
+				SwordWeapon->Destroy();
+			}
+
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.Owner = this;
+			SpawnParams.bNoFail = true;
+			SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+			// weapon spawn transform and location
+			FTransform SpawnTransform = GetMesh()->GetSocketTransform("WeaponSocket");
+			SwordWeapon = GetWorld()->SpawnActor<ASword>(SwordClass, SpawnTransform, SpawnParams);
+			SwordWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, FName("WeaponSocket"));
+			PlayerInventory->RemoveSingleInstanceOfItem(WeaponItem);
+			PlayerInventory->OnInventoryUpdated.Broadcast();
+		}
 	}
 }
 
