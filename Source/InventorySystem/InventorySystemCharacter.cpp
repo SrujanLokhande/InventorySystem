@@ -14,14 +14,12 @@
 #include "Actors/Pickup.h"
 #include "Actors/Sword.h"
 #include "Actors/Tablet.h"
-#include "Blueprint/UserWidget.h"
 #include "Components/InventoryComponent.h"
 #include "Components/SceneCaptureComponent2D.h"
 #include "Components/WidgetInteractionComponent.h"
-#include "Engine/TextureRenderTarget2D.h"
 #include "UserInterface/InventorySystemHUD.h"
 #include "UserInterface/Inventory/DragItemVisual.h"
-#include "UserInterface/Inventory/InventoryTooltip.h"
+
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 AInventorySystemCharacter::AInventorySystemCharacter()
